@@ -3,12 +3,6 @@ import { Target, Eye, Heart } from "lucide-react";
 
 const values = [
   { icon: Target, title: "Mission", text: "To accelerate Africa's digital transformation by making AI accessible, practical, and impactful for every organization." },
-  { icon: Eye, title: "Vision", text: "A continent where every organization — from startups to governments — harnesses AI to solve real problems and create lasting value." },
-  { icon: Heart, title: "Values", text: "Innovation with integrity, African-first solutions, collaborative growth, and responsible AI adoption that benefits communities." },
-];
-
-const values = [
-  { icon: Target, title: "Mission", text: "To accelerate Africa's digital transformation by making AI accessible, practical, and impactful for every organization." },
   { icon: Eye, title: "Vision", text: "A continent where every organization harnesses AI to solve local problems and create lasting value." },
   { icon: Heart, title: "Values", text: "Innovation with integrity, African-first solutions, and the highest standards of engineering excellence." },
 ];
