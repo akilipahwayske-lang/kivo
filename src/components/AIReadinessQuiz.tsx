@@ -101,6 +101,16 @@ const AIReadinessQuiz = () => {
   const [email, setEmail] = useState("");
   const [showEmailGate, setShowEmailGate] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleDownloadPDF = () => {
+    setIsExporting(true);
+    // Cinematic delay to simulate report generation
+    setTimeout(() => {
+      window.print();
+      setIsExporting(false);
+    }, 1500);
+  };
 
   const handleNext = () => {
     if (selectedOption === null) return;
@@ -163,7 +173,29 @@ const AIReadinessQuiz = () => {
   }));
 
   return (
-    <section id="quiz" className="relative py-24 md:py-32 bg-background overflow-hidden">
+    <section id="quiz" className={`relative py-24 md:py-32 bg-background overflow-hidden ${isExporting ? 'print:p-0 print:bg-white print:text-black' : ''}`}>
+      {/* Cinematic Export Overlay */}
+      <AnimatePresence>
+        {isExporting && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center print:hidden"
+          >
+            <div className="relative w-24 h-24 mb-8">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 border-4 border-primary/20 border-t-primary rounded-full"
+              />
+              <Download className="absolute inset-0 m-auto text-primary animate-pulse" size={32} />
+            </div>
+            <h3 className="text-xl font-black text-white uppercase tracking-[0.5em] animate-pulse">Generating Report</h3>
+            <p className="text-white/40 text-xs mt-4 uppercase tracking-widest font-mono">Digital Sovereignty // KIVO AI</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* Background patterns */}
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
       <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-secondary/5 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2" />
@@ -372,8 +404,11 @@ const AIReadinessQuiz = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-                <button className="flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8 print:hidden">
+                <button
+                  onClick={handleDownloadPDF}
+                  className="flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all"
+                >
                   <Download size={20} /> Download Full PDF
                 </button>
                 <button
