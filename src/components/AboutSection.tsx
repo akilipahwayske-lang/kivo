@@ -31,12 +31,21 @@ const AboutSection = () => (
         </ScrollAnimator>
 
         <div className="relative aspect-video bg-white/5 border border-white/10 group overflow-hidden">
+          {/* High-Fidelity Cinematic Image */}
+          <img
+            src="https://images.unsplash.com/photo-1590424744295-ff443e4983df?q=80&w=1200&auto=format&fit=crop"
+            alt="Silicon Savannah - Nairobi"
+            className="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-1000"
+          />
+
           <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#00f0ff_1px,transparent_1px),linear-gradient(to_bottom,#00f0ff_1px,transparent_1px)] bg-[size:20px_20px]" />
-          {/* Abstract visual placeholder for "Silicon Savannah" */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-40 group-hover:opacity-60 transition-opacity">
+
+          {/* Abstract visual fallback / overlay */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-10 transition-opacity">
             <span className="text-[8rem] font-black text-white/5 tracking-tighter">KE // AI</span>
           </div>
-          <div className="absolute inset-0 p-8 flex flex-col justify-end">
+
+          <div className="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-t from-[#050505] via-transparent to-transparent">
             <div className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-2">Technical Hub</div>
             <div className="text-xs font-mono text-white/40 uppercase">Lat: -1.2921 // Long: 36.8219</div>
           </div>

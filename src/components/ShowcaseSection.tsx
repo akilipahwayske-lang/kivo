@@ -4,29 +4,32 @@ import { Database, ShieldCheck, Zap, Globe, ArrowUpRight } from "lucide-react";
 
 const projects = [
     {
-        title: "Regional Financial Firewall",
+        title: "Predictive Credit System",
         sector: "Fintech",
-        impact: "99.9% Fraud Detection",
-        tech: ["Neural Networks", "Real-time Kafka", "M-Pesa API"],
-        desc: "Real-time AI-powered transaction monitoring system designed for the complexities of East African mobile money ecosystems.",
-        icon: ShieldCheck,
+        impact: "40% lower default rates",
+        tech: ["PyTorch", "M-Pesa API"],
+        desc: "An AI-driven scoring engine for the unbanked, leveraging alternative data streams for reliable risk assessment.",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
+        icon: ShieldCheck
     },
     {
-        title: "Agri-Yield Neural Engine",
+        title: "Supply Chain AI",
         sector: "Logistics",
-        impact: "40% Yield Increase",
-        tech: ["Satellite Imagery", "PyTorch", "Rust Edge Cloud"],
-        desc: "A distributed intelligence platform providing localized crop yield predictions for over 200,000 smallholder farmers.",
-        icon: Zap,
+        impact: "25% cost reduction",
+        tech: ["Reinforcement Learning", "Google Cloud"],
+        desc: "Optimizing the 'Last Mile' in Nairobi with dynamic routing and demand forecasting models.",
+        image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop",
+        icon: Zap
     },
     {
-        title: "Pan-African Language Mesh",
-        sector: "NLP",
-        impact: "12 Dialects Supported",
-        tech: ["Custom Transformers", "Low-Resource Learning"],
-        desc: "First enterprise-grade Swahili NLP system natively understanding regional slang and local context for customer service.",
-        icon: Globe,
-    }
+        title: "Visual Quality Control",
+        sector: "Manufacturing",
+        impact: "99.8% accuracy",
+        tech: ["Computer Vision", "NVIDIA Jetson"],
+        desc: "Real-time defect detection for food processing lines in Kenya's industrial hubs.",
+        image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop",
+        icon: Globe
+    },
 ];
 
 const ProjectVisual = ({ sector }: { sector: string }) => (
@@ -64,8 +67,18 @@ const ShowcaseSection = () => {
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             transition={{ delay: i * 0.2 }}
-                            className="group relative p-12 bg-[#050505] hover:bg-white/[0.02] transition-colors duration-700"
+                            className="group relative p-12 bg-[#050505] transition-all duration-700 cursor-pointer h-full hover:bg-white/[0.02] border border-white/5 hover:border-primary/20"
                         >
+                            {/* High-Fidelity Project Image */}
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-all duration-1000 pointer-events-none overflow-hidden">
+                                <img
+                                    src={project.image}
+                                    alt={project.title}
+                                    className="absolute inset-0 w-full h-full object-cover grayscale group-hover:scale-110 transition-transform duration-[3s]"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#050505] via-transparent to-transparent opacity-80" />
+                            </div>
+
                             <ProjectVisual sector={project.sector} />
 
                             <div className="flex justify-between items-start mb-12 relative z-10">

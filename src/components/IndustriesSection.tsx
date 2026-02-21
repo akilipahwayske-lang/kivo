@@ -8,31 +8,40 @@ const industries = [
     title: "Agri-Tech & Logistics",
     desc: "Predictive AI for the heartbeat of Africa.",
     cases: ["Yield forecasting for smallholders", "Supply chain route optimization", "Soil health computer vision", "Pest outbreak early warning"],
+    image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=1200&auto=format&fit=crop"
   },
   {
     icon: Building2,
     title: "Financial Institutions",
     desc: "The next evolution of Mobile Money.",
     cases: ["Micro-lending credit risk AI", "Automated AML for SACCOs", "Personalized wealth management", "Forex liquidity forecasting"],
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1200&auto=format&fit=crop"
   },
   {
     icon: Landmark,
     title: "Public Sector & Gov",
     desc: "Intelligent citizen-centric services.",
     cases: ["Multilingual citizen chatbots", "Data-driven urban planning", "Public health resource allocation", "Tax fraud detection systems"],
+    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1200&auto=format&fit=crop"
   },
   {
     icon: Zap,
     title: "Energy & Infrastructure",
     desc: "Optimizing the power of tomorrow.",
     cases: ["Smart grid load forecasting", "Solar microgrid optimization", "Predictive maintenance for telcos", "Water distribution analytics"],
+    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=1200&auto=format&fit=crop"
   },
 ];
 
-const SectorVisual = ({ type }: { type: string }) => (
-  <div className="absolute top-0 right-0 w-32 h-32 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none overflow-hidden">
-    <div className="absolute inset-0 bg-gradient-to-br from-primary/40 to-transparent" style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }} />
-    <div className="absolute top-4 right-4 text-[40px] font-black text-white/10 uppercase tracking-tighter">
+const SectorVisual = ({ image, type, isActive }: { image: string; type: string; isActive: boolean }) => (
+  <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-all duration-1000 pointer-events-none overflow-hidden">
+    <img
+      src={image}
+      alt={type}
+      className={`absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 transition-transform duration-[3s] ${isActive ? "opacity-40 grayscale-0 brightness-75 scale-105" : ""}`}
+    />
+    <div className="absolute inset-0 bg-gradient-to-br from-[#050505] via-transparent to-transparent opacity-60" />
+    <div className="absolute top-4 right-4 text-[40px] font-black text-white/5 uppercase tracking-tighter">
       {type}
     </div>
   </div>
@@ -69,7 +78,7 @@ const IndustriesSection = () => {
                     }`}
                   onClick={() => setActiveIdx(isActive ? null : i)}
                 >
-                  <SectorVisual type={sectorCode} />
+                  <SectorVisual image={ind.image} type={sectorCode} isActive={isActive} />
 
                   <div className={`p-4 border border-white/10 w-fit mb-8 transition-colors ${isActive ? "bg-primary border-primary" : "group-hover:border-primary/40"}`}>
                     <ind.icon className={`transition-all duration-300 ${isActive ? "text-[#050505]" : "text-white/40 group-hover:text-primary"}`} size={24} />

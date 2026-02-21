@@ -8,7 +8,8 @@ const articles = [
         date: "Feb 2026",
         readTime: "12 min",
         excerpt: "An in-depth analysis of how regional leaders are leveraging LLMs to solve local infrastructure and language challenges.",
-        tag: "Strategy"
+        tag: "Strategy",
+        image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=800&auto=format&fit=crop"
     },
     {
         title: "Optimizing Neural Networks for Edge Computing in Agriculture",
@@ -16,7 +17,8 @@ const articles = [
         date: "Jan 2026",
         readTime: "8 min",
         excerpt: "Exploring the engineering hurdles of deploying high-accuracy models in low-connectivity rural environments.",
-        tag: "Engineering"
+        tag: "Engineering",
+        image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop"
     },
     {
         title: "Fintech Security: AI-Driven Fraud Prevention for Mobile Money",
@@ -24,7 +26,8 @@ const articles = [
         date: "Dec 2025",
         readTime: "10 min",
         excerpt: "How real-time intelligence is safeguarding millions of transactions across the Safaricom and KCB ecosystems.",
-        tag: "Security"
+        tag: "Security",
+        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop"
     }
 ];
 
@@ -55,10 +58,16 @@ const InsightsSection = () => {
                             transition={{ delay: i * 0.1 }}
                             className="group relative p-0 bg-[#050505] hover:bg-white/[0.02] transition-colors duration-700 cursor-pointer flex flex-col"
                         >
-                            {/* Thumbnail Placeholder */}
+                            {/* High-Fidelity Editorial Thumbnail */}
                             <div className="aspect-video relative bg-[#0a0a0a] border-b border-white/10 overflow-hidden">
+                                <img
+                                    src={article.image}
+                                    alt={article.title}
+                                    className="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-75 group-hover:scale-105 transition-all duration-700"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-60" />
                                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#00f0ff_1px,transparent_1px),linear-gradient(to_bottom,#00f0ff_1px,transparent_1px)] bg-[size:10px_10px]" />
-                                <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-40 transition-opacity">
+                                <div className="absolute inset-0 flex items-center justify-center opacity-10 group-hover:opacity-20 transition-opacity">
                                     <span className="text-6xl font-black text-white/5">{article.category[0]}</span>
                                 </div>
                             </div>

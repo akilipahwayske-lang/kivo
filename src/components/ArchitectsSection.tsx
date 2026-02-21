@@ -7,21 +7,24 @@ const architects = [
         role: "Lead AI Architect",
         specialty: "Neural Systems & Scale",
         bio: "Ex-Google DeepMind engineer focused on regional financial intelligence.",
-        initials: "JM"
+        initials: "JM",
+        image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop"
     },
     {
         name: "Sarah Otieno",
         role: "Senior Data Scientist",
         specialty: "Agri-Compute & Edge",
         bio: "Pioneering distributed AI models for the East African agricultural frontier.",
-        initials: "SO"
+        initials: "SO",
+        image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=800&auto=format&fit=crop"
     },
     {
         name: "David Kamau",
         role: "Logistics Engine Lead",
         specialty: "Optimization & RL",
         bio: "Master of reinforcement learning for complex supply chain networks.",
-        initials: "DK"
+        initials: "DK",
+        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800&auto=format&fit=crop"
     }
 ];
 
@@ -47,12 +50,19 @@ const ArchitectsSection = () => {
                             className="group relative bg-white/[0.02] border border-white/5 hover:border-primary/20 transition-all duration-700"
                         >
                             <div className="aspect-[4/5] relative overflow-hidden bg-[#0a0a0a]">
-                                {/* Silhouette Placeholder with technical overlay */}
-                                <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-40 transition-opacity">
+                                {/* High-Fidelity Photo */}
+                                <img
+                                    src={architect.image}
+                                    alt={architect.name}
+                                    className="absolute inset-0 w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-700"
+                                />
+
+                                {/* Technical Silhouette Fallback (Subtle) */}
+                                <div className="absolute inset-0 flex items-center justify-center opacity-10">
                                     <span className="text-[10rem] font-black text-white/5">{architect.initials}</span>
                                 </div>
 
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-80" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-60" />
                                 <div className="absolute inset-0 opacity-0 group-hover:opacity-[0.05] bg-film-grain transition-opacity" />
 
                                 {/* Kinetic Pulse Overlay */}
