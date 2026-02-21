@@ -1,94 +1,62 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Linkedin, Twitter, Github, Mail, Globe } from "lucide-react";
 
 const Footer = () => {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) setSubscribed(true);
-  };
-
   return (
-    <footer className="border-t border-border bg-card/50 py-16">
+    <footer className="bg-[#050505] border-t border-white/5 py-24 md:py-32">
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-10 mb-12">
-          {/* Brand */}
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-primary/20 border border-primary/40 flex items-center justify-center">
-                <span className="font-display font-bold text-primary text-lg">K</span>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 mb-24">
+          <div className="md:col-span-4 max-w-sm">
+            <Link to="/" className="flex items-center gap-3 group mb-8">
+              <div className="w-12 h-12 bg-primary flex items-center justify-center font-black">
+                <span className="text-[#050505] text-2xl">K</span>
               </div>
-              <span className="font-display font-bold text-xl text-foreground">KIVO</span>
-            </div>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-              Knowledge · Innovation · Vision · Optimization
+              <span className="text-2xl font-display font-black tracking-tighter text-white">KIVO</span>
+            </Link>
+            <p className="text-muted-foreground text-lg font-medium leading-relaxed">
+              Engineering high-impact AI architectures for the African continent. Solving complexity through intelligence.
             </p>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary/10 border border-secondary/20 text-secondary text-xs font-semibold">
-              🇰🇪 Built in Kenya for Africa
-            </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="font-display font-bold text-foreground mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              {["About", "Services", "Industries", "Impact"].map((link) => (
-                <li key={link}>
-                  <a href={`#${link.toLowerCase()}`} className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                    {link}
-                  </a>
-                </li>
+          <div className="md:col-span-2 md:col-start-7">
+            <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.4em] mb-8">Navigation</p>
+            <ul className="space-y-4">
+              <li><a href="#showcase" className="text-sm font-bold text-white/80 hover:text-primary transition-colors">Showcase</a></li>
+              <li><a href="#services" className="text-sm font-bold text-white/80 hover:text-primary transition-colors">Services</a></li>
+              <li><a href="#industries" className="text-sm font-bold text-white/80 hover:text-primary transition-colors">Industries</a></li>
+              <li><a href="#quiz" className="text-sm font-bold text-white/80 hover:text-primary transition-colors">AI Audit</a></li>
+            </ul>
+          </div>
+
+          <div className="md:col-span-2">
+            <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.4em] mb-8">HQ: Nairobi</p>
+            <address className="not-italic space-y-4">
+              <p className="text-sm font-bold text-white/80">Westlands, Nairobi</p>
+              <p className="text-sm font-bold text-white/80">Monday – Friday</p>
+              <p className="text-sm font-bold text-white/80">9:00 – 18:00 EAT</p>
+            </address>
+          </div>
+
+          <div className="md:col-span-2">
+            <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.4em] mb-8">Connect</p>
+            <div className="flex flex-wrap gap-4">
+              {[Linkedin, Twitter, Github, Mail].map((Icon, i) => (
+                <a key={i} href="#" className="w-12 h-12 flex items-center justify-center bg-white/5 border border-white/5 hover:border-primary/30 text-white/50 hover:text-primary transition-all">
+                  <Icon size={20} />
+                </a>
               ))}
-            </ul>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h4 className="font-display font-bold text-foreground mb-4">Services</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>AI Strategy</li>
-              <li>AI Integration</li>
-              <li>AI Training</li>
-              <li>Custom AI Dev</li>
-              <li>AI Governance</li>
-            </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h4 className="font-display font-bold text-foreground mb-4">Stay Updated</h4>
-            {!subscribed ? (
-              <form onSubmit={handleSubscribe} className="space-y-3">
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@email.com"
-                  className="w-full px-4 py-2.5 rounded-lg bg-background border border-border text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:border-primary transition-all"
-                />
-                <button
-                  type="submit"
-                  className="w-full px-4 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-all"
-                >
-                  Subscribe
-                </button>
-              </form>
-            ) : (
-              <p className="text-primary text-sm font-medium">Thanks for subscribing! 🎉</p>
-            )}
+            </div>
           </div>
         </div>
 
-        <div className="border-t border-border pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-muted-foreground text-xs">© 2025 KIVO. All rights reserved.</p>
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-6">
-            {["Twitter", "LinkedIn", "GitHub"].map((social) => (
-              <a key={social} href="#" className="text-muted-foreground hover:text-primary transition-colors text-xs">
-                {social}
-              </a>
-            ))}
+            <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">© 2026 KIVO AI</span>
+            <a href="#" className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em] hover:text-white transition-colors">Privacy Privacy</a>
+          </div>
+          <div className="flex items-center gap-4 text-white/20">
+            <Globe size={14} />
+            <span className="text-[10px] font-black uppercase tracking-[0.3em]">Global Engineering Standards</span>
           </div>
         </div>
       </div>

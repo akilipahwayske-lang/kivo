@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronRight } from "lucide-react";
 import HeroScene from "./HeroScene";
 import { useEffect, useState } from "react";
 
@@ -28,132 +28,98 @@ const AnimatedCounter = ({ value }: { value: string }) => {
   return <span>{displayValue}</span>;
 };
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.3,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-  },
-};
-
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-kivo-darker">
-      {/* Background Layers */}
-      <div className="absolute inset-0 z-0">
+    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-[#050505]">
+      {/* Neural Background */}
+      <div className="absolute inset-0 z-0 opacity-40">
         <HeroScene />
       </div>
 
+      {/* Strategic Overlays */}
       <div className="absolute inset-0 z-1 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-kivo-darker/20 via-transparent to-kivo-darker" />
-        <div className="absolute inset-0 bg-grid-pattern opacity-10" />
-        <div className="absolute inset-0 afro-tech-overlay opacity-5" />
+        <div className="absolute inset-0 neural-grid opacity-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-transparent to-[#050505]" />
       </div>
 
-      {/* Glow Effects */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/20 blur-[120px] rounded-full animate-pulse-glow pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-secondary/15 blur-[100px] rounded-full animate-pulse-glow delay-700 pointer-events-none" />
-
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="max-w-4xl mx-auto text-center"
-        >
-          {/* Badge */}
-          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            <span className="text-xs font-black uppercase tracking-[0.3em] text-white/70">AI Excellence — Nairobi, Kenya 🇰🇪</span>
+        <div className="max-w-6xl mx-auto">
+          {/* Tagline */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-4 mb-10 overflow-hidden"
+          >
+            <div className="w-12 h-[2px] bg-primary" />
+            <span className="text-[10px] uppercase font-black tracking-[0.5em] text-primary/80">AI STRATEGY • ENGINEERING • OPTIMIZATION</span>
           </motion.div>
 
-          {/* Main Title */}
+          {/* Elite Headline */}
           <motion.h1
-            variants={itemVariants}
-            className="font-display font-black text-6xl md:text-9xl mb-8 tracking-tighter leading-[0.85] text-white"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-h1-elite mb-12"
           >
-            KIVO <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-kivo-glow to-secondary text-glow-intense">
-              Powering Africa's <br />
-              Intelligent Future
-            </span>
+            <span className="text-white">Engineering</span> <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#00f0ff] glow-text-cyan">
+              Intelligence
+            </span> <br />
+            <span className="text-white/40">For Africa</span>
           </motion.h1>
 
-          <motion.p
-            variants={itemVariants}
-            className="text-muted-foreground text-xl md:text-2xl mb-12 max-w-2xl mx-auto leading-relaxed font-medium"
-          >
-            Nairobi's premier AI consultancy driving innovation through bespoke <br className="hidden md:block" />
-            <span className="text-white">Knowledge, Innovation, Vision, and Optimization.</span>
-          </motion.p>
-
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row items-center justify-center gap-6"
-          >
-            <a
-              href="#contact"
-              className="group relative px-10 py-5 rounded-2xl bg-primary text-primary-foreground font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-primary/30 overflow-hidden"
+          <div className="grid md:grid-cols-2 gap-12 items-end">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="text-muted-foreground text-xl md:text-2xl font-medium leading-relaxed"
             >
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-              <div className="relative flex items-center gap-3">
-                Book Discovery Call <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
-              </div>
-            </a>
-            <a
-              href="#quiz"
-              className="px-10 py-5 rounded-2xl glass-card text-white font-black text-xl hover:bg-white/10 hover:border-white/20 transition-all border-glow"
-            >
-              Take Readiness Quiz
-            </a>
-          </motion.div>
+              We don't just build AI. We architect systems that solve complex regional challenges—from Nairobi to the world.
+            </motion.p>
 
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="flex flex-col sm:flex-row gap-6"
+            >
+              <a
+                href="#contact"
+                className="group flex items-center justify-between px-8 py-6 bg-primary text-primary-foreground font-black text-xs uppercase tracking-widest hover:bg-white transition-all duration-500"
+              >
+                Inquire Now <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+              </a>
+              <a
+                href="#showcase"
+                className="group flex items-center justify-between px-8 py-6 border border-white/10 text-white font-black text-xs uppercase tracking-widest hover:bg-white/5 transition-all duration-500"
+              >
+                View Showcase <ChevronRight size={18} className="group-hover:translate-x-2 transition-transform opacity-50" />
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Metric Bar */}
           <motion.div
-            variants={itemVariants}
-            className="mt-24 pt-10 border-t border-white/5 flex flex-wrap justify-center gap-10 md:gap-20"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="mt-24 pt-12 border-t border-white/5 grid grid-cols-2 md:grid-cols-4 gap-8"
           >
             {[
-              { label: "AI Deployments", value: "50", suffix: "+" },
-              { label: "Organizations Served", value: "30", suffix: "+" },
-              { label: "Talent Upskilled", value: "5000", suffix: "+" },
+              { label: "Systems Deployed", value: "50+", color: "text-primary" },
+              { label: "Strategic Partners", value: "30+", color: "text-white" },
+              { label: "Regional Nodes", value: "12", color: "text-white" },
+              { label: "Engineering Lead", value: "8yr+", color: "text-[#ffb700]" },
             ].map((stat) => (
-              <div key={stat.label} className="text-center group">
-                <div className="text-4xl md:text-5xl font-black text-white mb-2 flex items-center justify-center group-hover:text-primary transition-colors">
-                  <AnimatedCounter value={stat.value} />
-                  <span className="text-primary">{stat.suffix}</span>
-                </div>
-                <div className="text-[10px] uppercase font-bold tracking-[0.2em] text-muted-foreground">{stat.label}</div>
+              <div key={stat.label} className="space-y-2">
+                <div className={`text-4xl font-black ${stat.color} tracking-tighter`}>{stat.value}</div>
+                <div className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground opacity-60">{stat.label}</div>
               </div>
             ))}
           </motion.div>
-        </motion.div>
+        </div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
-      >
-        <div className="w-[1px] h-12 bg-gradient-to-b from-primary to-transparent" />
-        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 rotate-180 [writing-mode:vertical-lr]">Scroll</span>
-      </motion.div>
     </section>
   );
 };

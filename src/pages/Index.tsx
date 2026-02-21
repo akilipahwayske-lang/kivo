@@ -1,23 +1,25 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import TrustSection from "@/components/TrustSection";
 import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
 import IndustriesSection from "@/components/IndustriesSection";
+import ShowcaseSection from "@/components/ShowcaseSection";
 import AIReadinessQuiz from "@/components/AIReadinessQuiz";
-import CaseStudiesSection from "@/components/CaseStudiesSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="min-h-screen bg-[#050505] text-foreground overflow-x-hidden">
       <Navbar />
       <HeroSection />
-      <AboutSection />
+      <TrustSection />
+      <ShowcaseSection />
       <ServicesSection />
       <IndustriesSection />
+      <AboutSection />
       <AIReadinessQuiz />
-      <CaseStudiesSection />
       <ContactSection />
       <Footer />
     </div>
