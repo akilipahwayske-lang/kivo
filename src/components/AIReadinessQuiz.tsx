@@ -1,8 +1,9 @@
 import { useState } from "react";
-import ScrollAnimator from "./ScrollAnimator";
+import { motion, AnimatePresence } from "framer-motion";
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from "recharts";
-import { ArrowRight, ArrowLeft, RotateCcw } from "lucide-react";
+import { ArrowRight, ArrowLeft, RotateCcw, Mail, Sparkles, Download, CheckCircle2 } from "lucide-react";
 
+// ... (questions array stays the same)
 const questions = [
   {
     question: "How would you describe your organization's current use of AI?",
@@ -68,21 +69,27 @@ const questions = [
 
 const getRecommendations = (totalScore: number) => {
   if (totalScore <= 10) return {
-    level: "Explorer",
+    level: "AI Explorer",
     color: "text-red-400",
-    text: "Your organization is at the beginning of its AI journey. Start with awareness and strategy.",
+    glow: "shadow-red-500/20",
+    description: "Your organization is at the threshold of the AI revolution. You have a massive opportunity to leapfrog legacy systems and build an AI-first culture from the ground up.",
+    steps: ["Conduct an AI Awareness Workshop for leadership", "Identify low-hanging fruit for initial pilots", "Audit existing data silos"],
     services: ["AI Strategy & Roadmapping", "AI Training & Capacity Building"],
   };
-  if (totalScore <= 16) return {
-    level: "Builder",
+  if (totalScore <= 18) return {
+    level: "AI Builder",
     color: "text-secondary",
-    text: "You have foundations in place. Now it's time to pilot and integrate AI solutions.",
+    glow: "shadow-secondary/20",
+    description: "You've moved past experimentation. Now you need to industrialize your AI efforts, ensuring they are scalable, secure, and deliver measurable ROI.",
+    steps: ["Develop a centralized AI center of excellence", "Implement automated data pipelines", "Launch a cross-departmental AI pilot"],
     services: ["AI Integration & Automation", "Custom AI Development"],
   };
   return {
-    level: "Leader",
+    level: "AI Leader",
     color: "text-primary",
-    text: "You're advanced! Focus on scaling, governance, and optimizing your AI capabilities.",
+    glow: "shadow-primary/20",
+    description: "You are setting the pace for innovation in Africa. Your focus should be on sophisticated governance, ethical AI frameworks, and cutting-edge R&D.",
+    steps: ["Establish an AI Ethics Committee", "Optimize model performance with MLOps", "Explore generative AI for proprietary use cases"],
     services: ["AI Governance & Ethics", "Custom AI Development"],
   };
 };
@@ -91,13 +98,29 @@ const AIReadinessQuiz = () => {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const isComplete = step >= questions.length;
+  const [email, setEmail] = useState("");
+  const [showEmailGate, setShowEmailGate] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
 
   const handleNext = () => {
     if (selectedOption === null) return;
-    setAnswers([...answers, questions[step].options[selectedOption].score]);
+    const newAnswers = [...answers, questions[step].options[selectedOption].score];
+    setAnswers(newAnswers);
     setSelectedOption(null);
-    setStep(step + 1);
+
+    if (step < questions.length - 1) {
+      setStep(step + 1);
+    } else {
+      setShowEmailGate(true);
+    }
+  };
+
+  const handleEmailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsComplete(true);
+    setShowEmailGate(false);
+    // In a real app, send lead to CRM here
+    console.log("New Lead Captured:", { email, answers });
   };
 
   const handleBack = () => {
@@ -111,6 +134,9 @@ const AIReadinessQuiz = () => {
     setStep(0);
     setAnswers([]);
     setSelectedOption(null);
+    setEmail("");
+    setShowEmailGate(false);
+    setIsComplete(false);
   };
 
   const totalScore = answers.reduce((a, b) => a + b, 0);
@@ -125,132 +151,227 @@ const AIReadinessQuiz = () => {
   }));
 
   return (
-    <section id="quiz" className="relative py-24 md:py-32">
-      <div className="container mx-auto px-4">
-        <ScrollAnimator>
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <span className="text-primary text-sm font-semibold uppercase tracking-widest">Gamified Assessment</span>
-            <h2 className="font-display font-bold text-4xl md:text-5xl mt-4 mb-6 text-foreground">
-              AI Readiness <span className="text-primary text-glow">Quiz</span>
-            </h2>
-            <p className="text-muted-foreground text-lg">
-              Answer 6 quick questions to discover your organization's AI maturity level and get personalized recommendations.
-            </p>
-          </div>
-        </ScrollAnimator>
+    <section id="quiz" className="relative py-24 md:py-32 bg-background overflow-hidden">
+      {/* Background patterns */}
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-secondary/5 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2" />
 
-        <div className="max-w-2xl mx-auto">
-          {!isComplete ? (
-            <ScrollAnimator>
-              <div className="p-8 md:p-10 rounded-2xl bg-card border border-border">
-                {/* Progress */}
-                <div className="flex items-center justify-between mb-6">
-                  <span className="text-sm text-muted-foreground">Question {step + 1} of {questions.length}</span>
-                  <span className="text-sm text-primary font-semibold">{Math.round(((step) / questions.length) * 100)}%</span>
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-primary text-xs font-bold uppercase tracking-[0.3em] mb-4 block"
+          >
+            Digital Assessment
+          </motion.span>
+          <h2 className="font-display font-black text-4xl md:text-6xl text-foreground leading-tight">
+            AI Readiness <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-kivo-glow text-glow">Audit</span>
+          </h2>
+          <p className="text-muted-foreground text-lg mt-6">
+            Benchmark your organization against industry standards and receive a bespoke optimization roadmap.
+          </p>
+        </div>
+
+        <div className="max-w-3xl mx-auto">
+          {!showEmailGate && !isComplete ? (
+            <div className="glass-card p-8 md:p-12 rounded-[2rem] border-white/5 relative overflow-hidden">
+              <div className="flex items-center justify-between mb-8">
+                <div className="space-y-1">
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground font-bold">Step {step + 1} of {questions.length}</p>
+                  <p className="text-primary font-bold">{questions[step].dimension}</p>
                 </div>
-                <div className="w-full h-2 rounded-full bg-muted mb-8">
-                  <div
-                    className="h-full rounded-full bg-primary transition-all duration-500"
-                    style={{ width: `${(step / questions.length) * 100}%` }}
-                  />
-                </div>
-
-                <h3 className="font-display font-bold text-xl md:text-2xl mb-6 text-foreground">
-                  {questions[step].question}
-                </h3>
-
-                <div className="space-y-3 mb-8">
-                  {questions[step].options.map((opt, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setSelectedOption(i)}
-                      className={`w-full text-left p-4 rounded-xl border transition-all duration-300 ${
-                        selectedOption === i
-                          ? "border-primary bg-primary/10 text-foreground border-glow"
-                          : "border-border bg-card hover:border-muted-foreground/30 text-muted-foreground"
-                      }`}
-                    >
-                      <span className="font-medium">{opt.label}</span>
-                    </button>
-                  ))}
-                </div>
-
-                <div className="flex gap-3 justify-between">
-                  <button
-                    onClick={handleBack}
-                    disabled={step === 0}
-                    className="flex items-center gap-2 px-5 py-3 rounded-xl border border-border text-muted-foreground hover:text-foreground disabled:opacity-30 transition-all"
-                  >
-                    <ArrowLeft size={16} /> Back
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    disabled={selectedOption === null}
-                    className="flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold disabled:opacity-30 hover:bg-primary/90 transition-all"
-                  >
-                    {step === questions.length - 1 ? "See Results" : "Next"} <ArrowRight size={16} />
-                  </button>
+                <div className="text-2xl font-display font-black text-white/20">
+                  {Math.round(((step) / questions.length) * 100)}%
                 </div>
               </div>
-            </ScrollAnimator>
-          ) : (
-            <div className="p-8 md:p-10 rounded-2xl bg-card border border-primary/30 border-glow animate-fade-in">
-              <div className="text-center mb-8">
-                <h3 className="font-display font-bold text-3xl text-foreground mb-2">Your AI Readiness Score</h3>
-                <div className="inline-flex items-baseline gap-2">
-                  <span className={`font-display font-bold text-6xl ${rec.color} text-glow`}>{percentage}%</span>
-                  <span className="text-muted-foreground text-lg">/ 100</span>
-                </div>
-                <p className={`font-display font-bold text-2xl mt-2 ${rec.color}`}>{rec.level}</p>
+
+              <div className="w-full h-1.5 bg-white/5 rounded-full mb-12 overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(step / questions.length) * 100}%` }}
+                  className="h-full bg-primary shadow-[0_0_10px_rgba(0,180,216,0.5)]"
+                />
               </div>
 
-              {/* Radar Chart */}
-              <div className="w-full h-72 mb-8">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart data={radarData}>
-                    <PolarGrid stroke="hsl(240 10% 20%)" />
-                    <PolarAngleAxis dataKey="dimension" tick={{ fill: "hsl(220 10% 55%)", fontSize: 11 }} />
-                    <PolarRadiusAxis angle={30} domain={[0, 4]} tick={false} axisLine={false} />
-                    <Radar
-                      name="Score"
-                      dataKey="score"
-                      stroke="hsl(190 90% 50%)"
-                      fill="hsl(190 90% 50%)"
-                      fillOpacity={0.2}
-                      strokeWidth={2}
-                    />
-                  </RadarChart>
-                </ResponsiveContainer>
-              </div>
-
-              <p className="text-muted-foreground text-center mb-6">{rec.text}</p>
-
-              <div className="bg-muted/50 rounded-xl p-5 mb-6">
-                <p className="text-xs text-primary font-semibold uppercase tracking-wider mb-3">Recommended KIVO Services</p>
-                <ul className="space-y-2">
-                  {rec.services.map((s) => (
-                    <li key={s} className="text-foreground font-medium flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-primary" /> {s}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <a
-                  href="#contact"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all"
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={step}
+                  initial={{ x: 20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: -20, opacity: 0 }}
+                  transition={{ duration: 0.4 }}
                 >
-                  Book a Consultation <ArrowRight size={16} />
-                </a>
+                  <h3 className="font-display font-bold text-2xl md:text-3xl mb-10 text-white leading-tight">
+                    {questions[step].question}
+                  </h3>
+
+                  <div className="grid gap-4 mb-12">
+                    {questions[step].options.map((opt, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setSelectedOption(i)}
+                        className={`group relative text-left p-6 rounded-2xl border transition-all duration-300 ${selectedOption === i
+                          ? "border-primary bg-primary/10 text-white shadow-[0_0_20px_rgba(0,180,216,0.1)]"
+                          : "border-white/5 bg-white/5 hover:border-white/20 text-muted-foreground hover:text-white"
+                          }`}
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${selectedOption === i ? "border-primary bg-primary" : "border-white/20"
+                            }`}>
+                            {selectedOption === i && <CheckCircle2 size={14} className="text-primary-foreground" />}
+                          </div>
+                          <span className="font-semibold text-lg">{opt.label}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+
+              <div className="flex gap-4 items-center justify-between pt-6 border-t border-white/5">
                 <button
-                  onClick={handleReset}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-border text-muted-foreground hover:text-foreground transition-all"
+                  onClick={handleBack}
+                  disabled={step === 0}
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-muted-foreground hover:text-white disabled:opacity-30 transition-all"
                 >
-                  <RotateCcw size={16} /> Retake Quiz
+                  <ArrowLeft size={18} /> Back
+                </button>
+                <button
+                  onClick={handleNext}
+                  disabled={selectedOption === null}
+                  className="group flex items-center gap-3 px-10 py-4 rounded-xl bg-primary text-primary-foreground font-black text-lg disabled:opacity-30 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/20"
+                >
+                  {step === questions.length - 1 ? "Analyze Results" : "Next Question"}
+                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
             </div>
+          ) : showEmailGate ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="glass-card p-10 md:p-16 rounded-[2.5rem] text-center"
+            >
+              <div className="w-20 h-20 bg-primary/20 rounded-3xl flex items-center justify-center mx-auto mb-8">
+                <Sparkles className="text-primary" size={40} />
+              </div>
+              <h3 className="font-display font-black text-3xl md:text-4xl text-white mb-4">Your Analysis is Ready</h3>
+              <p className="text-muted-foreground text-lg mb-10 max-w-md mx-auto">
+                Enter your work email to unlock your AI maturity score and receive a personalized 5-page implementation roadmap.
+              </p>
+
+              <form onSubmit={handleEmailSubmit} className="space-y-4 max-w-sm mx-auto">
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
+                  <input
+                    type="email"
+                    required
+                    placeholder="name@company.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full pl-12 pr-4 py-5 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:bg-white/10 transition-all text-lg"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full py-5 rounded-2xl bg-primary text-primary-foreground font-black text-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-primary/30"
+                >
+                  Get Instant Access
+                </button>
+                <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-6">
+                  🔒 We respect your privacy. No spam, ever.
+                </p>
+              </form>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-8"
+            >
+              <div className="glass-card p-8 md:p-12 rounded-[2.5rem] border-primary/20">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                  <div className="text-center md:text-left">
+                    <p className="text-primary font-black uppercase tracking-[0.2em] text-sm mb-2">Audit Results</p>
+                    <h3 className={`font-display font-black text-5xl md:text-6xl mb-4 ${rec.color} text-glow`}>
+                      {rec.level}
+                    </h3>
+                    <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
+                      <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                      <span className="text-white font-bold text-2xl">{percentage}% Maturity</span>
+                    </div>
+                    <p className="text-muted-foreground leading-relaxed text-lg italic">
+                      "{rec.description}"
+                    </p>
+                  </div>
+                  <div className="h-72 relative">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RadarChart data={radarData}>
+                        <PolarGrid stroke="rgba(255,255,255,0.05)" />
+                        <PolarAngleAxis dataKey="dimension" tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 10, fontWeight: "bold" }} />
+                        <PolarRadiusAxis angle={30} domain={[0, 4]} tick={false} axisLine={false} />
+                        <Radar
+                          name="Score"
+                          dataKey="score"
+                          stroke="hsl(var(--primary))"
+                          fill="hsl(var(--primary))"
+                          fillOpacity={0.3}
+                          strokeWidth={3}
+                        />
+                      </RadarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="glass-card p-8 rounded-3xl border-white/5">
+                  <h4 className="font-display font-black text-xl text-white mb-6 flex items-center gap-3">
+                    <CheckCircle2 className="text-primary" /> Key Next Steps
+                  </h4>
+                  <ul className="space-y-4">
+                    {rec.steps.map((step, i) => (
+                      <li key={i} className="flex gap-4 text-muted-foreground font-medium bg-white/5 p-4 rounded-xl border border-white/5">
+                        <span className="text-primary font-black">{i + 1}.</span>
+                        {step}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="glass-card p-8 rounded-3xl border-primary/20 bg-primary/5">
+                  <h4 className="font-display font-black text-xl text-white mb-6 flex items-center gap-3">
+                    <Sparkles className="text-secondary" /> Tailored Services
+                  </h4>
+                  <div className="space-y-4">
+                    {rec.services.map((s) => (
+                      <div key={s} className="group flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all cursor-pointer">
+                        <span className="text-white font-bold">{s}</span>
+                        <ArrowRight size={16} className="text-primary group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    ))}
+                  </div>
+                  <a
+                    href="#contact"
+                    className="w-full mt-8 py-4 rounded-xl bg-white text-black font-black text-center block hover:bg-white/90 transition-all border-glow"
+                  >
+                    Discuss My Results
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+                <button className="flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all">
+                  <Download size={20} /> Download Full PDF
+                </button>
+                <button
+                  onClick={handleReset}
+                  className="flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-muted-foreground hover:text-white transition-all font-bold"
+                >
+                  <RotateCcw size={20} /> Restart Audit
+                </button>
+              </div>
+            </motion.div>
           )}
         </div>
       </div>
@@ -259,3 +380,4 @@ const AIReadinessQuiz = () => {
 };
 
 export default AIReadinessQuiz;
+
