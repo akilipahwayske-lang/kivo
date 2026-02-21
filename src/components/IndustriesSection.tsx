@@ -40,7 +40,7 @@ const SectorVisual = ({ image, type, isActive }: { image: string; type: string; 
       alt={type}
       className={`absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 transition-transform duration-[3s] ${isActive ? "opacity-40 grayscale-0 brightness-75 scale-105" : ""}`}
     />
-    <div className="absolute inset-0 bg-gradient-to-br from-[#050505] via-transparent to-transparent opacity-60" />
+    <div className="absolute inset-0 bg-gradient-to-br from-background via-transparent to-transparent opacity-60" />
     <div className="absolute top-4 right-4 text-[40px] font-black text-white/5 uppercase tracking-tighter">
       {type}
     </div>
@@ -51,7 +51,7 @@ const IndustriesSection = () => {
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
 
   return (
-    <section id="industries" className="relative py-24 md:py-32 bg-[#050505]">
+    <section id="industries" className="relative py-24 md:py-32 bg-background">
       <div className="absolute inset-0 neural-grid opacity-5" />
       <div className="container mx-auto px-4 relative">
         <ScrollAnimator>
@@ -61,40 +61,40 @@ const IndustriesSection = () => {
               <span className="text-[10px] uppercase font-black tracking-[0.5em] text-primary">SECTOR IMPACT</span>
               <div className="w-8 h-[2px] bg-primary" />
             </div>
-            <h2 className="text-h2-elite text-white">
-              Sectors We <br /> <span className="text-white/40">Transform</span>
+            <h2 className="text-h2-elite text-foreground">
+              Sectors We <br /> <span className="text-foreground/40">Transform</span>
             </h2>
           </div>
         </ScrollAnimator>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 border border-white/5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border">
           {industries.map((ind, i) => {
             const isActive = activeIdx === i;
             const sectorCode = ind.title.split(' ')[0].substring(0, 3);
             return (
               <ScrollAnimator key={ind.title} delay={i * 100}>
                 <div
-                  className={`relative p-12 bg-[#050505] transition-all duration-700 cursor-pointer h-full group hover:bg-white/[0.02] ${isActive ? "z-10 ring-1 ring-primary/30" : ""
+                  className={`relative p-12 bg-background transition-all duration-700 cursor-pointer h-full group hover:bg-muted ${isActive ? "z-10 ring-1 ring-primary/30" : ""
                     }`}
                   onClick={() => setActiveIdx(isActive ? null : i)}
                 >
                   <SectorVisual image={ind.image} type={sectorCode} isActive={isActive} />
 
-                  <div className={`p-4 border border-white/10 w-fit mb-8 transition-colors ${isActive ? "bg-primary border-primary" : "group-hover:border-primary/40"}`}>
-                    <ind.icon className={`transition-all duration-300 ${isActive ? "text-[#050505]" : "text-white/40 group-hover:text-primary"}`} size={24} />
+                  <div className={`p-4 border border-border w-fit mb-8 transition-colors ${isActive ? "bg-primary border-primary" : "group-hover:border-primary/40"}`}>
+                    <ind.icon className={`transition-all duration-300 ${isActive ? "text-primary-foreground" : "text-foreground/40 group-hover:text-primary"}`} size={24} />
                   </div>
 
-                  <h3 className="text-xl font-black text-white mb-4 uppercase tracking-tighter">{ind.title}</h3>
+                  <h3 className="text-xl font-black text-foreground mb-4 uppercase tracking-tighter">{ind.title}</h3>
                   <p className="text-muted-foreground text-sm font-medium mb-8 leading-relaxed opacity-60 group-hover:opacity-100 transition-opacity">{ind.desc}</p>
 
                   <div
-                    className={`overflow-hidden transition-all duration-500 border-t border-white/5 pt-4 ${isActive ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"
+                    className={`overflow-hidden transition-all duration-500 border-t border-border pt-4 ${isActive ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"
                       }`}
                   >
                     <p className="text-[10px] text-primary font-black uppercase tracking-[0.2em] mb-4">Strategic Applications</p>
                     <ul className="space-y-3">
                       {ind.cases.map((c) => (
-                        <li key={c} className="text-xs text-white/70 flex items-start gap-2 leading-relaxed">
+                        <li key={c} className="text-xs text-foreground/70 flex items-start gap-2 leading-relaxed">
                           <span className="w-1 h-1 rounded-full bg-primary mt-1.5 flex-shrink-0" />
                           {c}
                         </li>

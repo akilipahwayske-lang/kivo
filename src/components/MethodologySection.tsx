@@ -31,7 +31,7 @@ const steps = [
 
 const MethodologySection = () => {
     return (
-        <section id="methodology" className="py-24 md:py-40 bg-[#050505] relative overflow-hidden">
+        <section id="methodology" className="py-24 md:py-40 bg-background relative overflow-hidden">
             <div className="container mx-auto px-4 relative z-10">
                 <ScrollAnimator>
                     <div className="mb-24 text-center">
@@ -40,7 +40,7 @@ const MethodologySection = () => {
                             <span className="text-[10px] uppercase font-black tracking-[0.5em] text-primary">THE KIVO BLUEPRINT</span>
                             <div className="w-8 h-[2px] bg-primary" />
                         </div>
-                        <h2 className="text-h2-elite text-white">How We <br /> <span className="text-white/40 text-glow-cyan">Deploy Impact</span></h2>
+                        <h2 className="text-h2-elite text-foreground">How We <br /> <span className="text-foreground/40 text-glow-cyan">Deploy Impact</span></h2>
                     </div>
                 </ScrollAnimator>
 
@@ -51,15 +51,15 @@ const MethodologySection = () => {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.2 }}
-                            className="relative group p-10 bg-white/[0.02] border border-white/5 hover:border-primary/20 transition-all duration-500 overflow-hidden"
+                            className="relative group p-10 bg-muted border border-border hover:border-primary/20 transition-all duration-500 overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 p-8">
-                                <span className="text-6xl font-black text-white/5 group-hover:text-primary/10 transition-colors uppercase">{step.phase}</span>
+                                <span className="text-6xl font-black text-foreground/5 group-hover:text-primary/10 transition-colors uppercase">{step.phase}</span>
                             </div>
 
                             <div className="relative z-10">
                                 <step.icon size={48} className="text-primary mb-8 group-hover:scale-110 transition-transform" />
-                                <h3 className="text-2xl font-black text-white mb-6 uppercase tracking-tight">{step.title}</h3>
+                                <h3 className="text-2xl font-black text-foreground mb-6 uppercase tracking-tight">{step.title}</h3>
                                 <p className="text-muted-foreground font-medium mb-10 leading-relaxed max-w-sm">
                                     {step.desc}
                                 </p>
@@ -68,7 +68,7 @@ const MethodologySection = () => {
                                     {step.details.map((detail, idx) => (
                                         <div key={idx} className="flex items-center gap-3">
                                             <ChevronRight size={14} className="text-primary" />
-                                            <span className="text-[10px] uppercase font-bold tracking-widest text-white/60">{detail}</span>
+                                            <span className="text-[10px] uppercase font-bold tracking-widest text-foreground/60">{detail}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -80,12 +80,12 @@ const MethodologySection = () => {
                     ))}
                 </div>
 
-                <div className="mt-24 p-10 bg-primary flex flex-col md:flex-row items-center justify-between gap-8 group cursor-pointer hover:bg-white transition-all duration-700">
+                <div className="mt-24 p-10 bg-primary flex flex-col md:flex-row items-center justify-between gap-8 group cursor-pointer hover:bg-foreground transition-all duration-700">
                     <div>
-                        <h4 className="text-xl md:text-2xl font-black text-[#050505] uppercase tracking-tighter">Ready to initiate Discovery Phase?</h4>
-                        <p className="text-[#050505]/60 font-bold text-xs uppercase tracking-widest mt-2 uppercase">Complimentary 30-min Strategy Session</p>
+                        <h4 className="text-xl md:text-2xl font-black text-primary-foreground uppercase tracking-tighter group-hover:text-background transition-colors">Ready to initiate Discovery Phase?</h4>
+                        <p className="text-primary-foreground/60 font-bold text-xs uppercase tracking-widest mt-2 uppercase group-hover:text-background/60 transition-colors">Complimentary 30-min Strategy Session</p>
                     </div>
-                    <button className="px-10 py-5 bg-[#050505] text-white font-black text-xs uppercase tracking-[0.3em] group-hover:bg-primary transition-all">
+                    <button className="px-10 py-5 bg-background text-foreground font-black text-xs uppercase tracking-[0.3em] group-hover:bg-primary group-hover:text-primary-foreground transition-all">
                         Secure Session
                     </button>
                 </div>

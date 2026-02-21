@@ -149,11 +149,12 @@ const ParticleField = () => {
 
 const NextLevelHero = () => {
     return (
-        <section className="relative min-h-screen w-full bg-[#050505] overflow-hidden flex items-center">
+        <section className="relative min-h-screen w-full bg-background overflow-hidden flex items-center">
             {/* Kinetic 3D Scene */}
             <div className="absolute inset-0 z-0">
                 <Canvas dpr={[1, 2]}>
                     <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={40} />
+                    {/* The canvas background should stay dark to keep the 3D scene cinematic */}
                     <color attach="background" args={["#050505"]} />
                     <ambientLight intensity={0.2} />
                     <pointLight position={[10, 10, 10]} intensity={1} color="#ffb700" />
@@ -169,7 +170,7 @@ const NextLevelHero = () => {
             {/* Cinematic Overlays */}
             <div className="absolute inset-0 z-1 pointer-events-none">
                 <div className="absolute inset-0 opacity-[0.04] bg-film-grain" />
-                <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505] opacity-60" />
+                <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background opacity-60" />
                 <div className="absolute inset-0 backdrop-blur-[1px]" />
 
                 {/* Large Cinematic Glows */}
@@ -193,11 +194,11 @@ const NextLevelHero = () => {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, delay: 0.2 }}
-                        className="text-[4rem] md:text-[7rem] lg:text-[9rem] font-black leading-[0.9] tracking-[-0.04em] uppercase mb-12 text-white"
+                        className="text-[4rem] md:text-[7rem] lg:text-[9rem] font-black leading-[0.9] tracking-[-0.04em] uppercase mb-12 text-foreground"
                     >
                         We don't just <br />
-                        <span className="text-white/30">do AI. </span> <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-secondary glow-text-cyan">
+                        <span className="text-foreground/30">do AI. </span> <br />
+                        <span className="text-white dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-primary dark:via-white dark:to-secondary dark:glow-text-cyan">
                             We do AI <br />
                             that works.
                         </span>

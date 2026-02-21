@@ -6,6 +6,34 @@
 
 @layer base {
   :root {
+    --background: 0 0% 98%;
+    --foreground: 240 10% 4%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
+
+    --primary: 190 100% 42%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 40 90% 45%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 5% 40%;
+
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 190 100% 42%;
+
+    --radius: 0.5rem;
+
+    /* Elite AI Tokens - Light */
+    --elite-black: #0a0a0a;
+    --elite-accent: #00b4d8;
+    --elite-gold: #e67e22;
+  }
+
+  .dark {
     --background: 240 15% 2%;
     --foreground: 200 10% 98%;
 
@@ -25,9 +53,7 @@
     --input: 240 10% 12%;
     --ring: 190 100% 50%;
 
-    --radius: 0.5rem;
-
-    /* Elite AI Tokens */
+    /* Elite AI Tokens - Dark */
     --elite-black: #050505;
     --elite-accent: #00f0ff;
     --elite-gold: #ffb700;

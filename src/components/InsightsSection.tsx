@@ -75,7 +75,7 @@ const InsightsSection = () => {
     const [selectedArticle, setSelectedArticle] = useState<any>(null);
 
     return (
-        <section id="insights" className="py-24 md:py-40 bg-[#050505] border-t border-white/5 relative overflow-hidden">
+        <section id="insights" className="py-24 md:py-40 bg-background border-t border-border relative overflow-hidden">
             <div className="container mx-auto px-4 relative z-10">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
                     <div className="max-w-2xl">
@@ -83,15 +83,15 @@ const InsightsSection = () => {
                             <div className="w-8 h-[2px] bg-primary" />
                             <span className="text-[10px] uppercase font-black tracking-[0.5em] text-primary">THOUGHT LEADERSHIP</span>
                         </div>
-                        <h2 className="text-h2-elite text-white">Insights <br /> <span className="text-white/40">From the Frontier</span></h2>
+                        <h2 className="text-h2-elite text-foreground">Insights <br /> <span className="text-foreground/40">From the Frontier</span></h2>
                     </div>
 
-                    <button className="flex items-center gap-3 px-8 py-4 border border-white/10 text-white font-black text-[10px] uppercase tracking-widest hover:bg-white hover:text-[#050505] transition-all group">
+                    <button className="flex items-center gap-3 px-8 py-4 border border-border text-foreground font-black text-[10px] uppercase tracking-widest hover:bg-foreground hover:text-background transition-all group">
                         View All Insights <BookOpen size={14} className="group-hover:rotate-12 transition-transform" />
                     </button>
                 </div>
 
-                <div className="grid lg:grid-cols-3 gap-px bg-white/10 border border-white/10 overflow-hidden">
+                <div className="grid lg:grid-cols-3 gap-px bg-border border border-border overflow-hidden">
                     {articles.map((article, i) => (
                         <motion.div
                             key={article.title}
@@ -99,19 +99,19 @@ const InsightsSection = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.1 }}
                             onClick={() => setSelectedArticle(article)}
-                            className="group relative p-0 bg-[#050505] hover:bg-white/[0.02] transition-colors duration-700 cursor-pointer flex flex-col"
+                            className="group relative p-0 bg-background hover:bg-muted transition-colors duration-700 cursor-pointer flex flex-col"
                         >
                             {/* High-Fidelity Editorial Thumbnail */}
-                            <div className="aspect-video relative bg-[#0a0a0a] border-b border-white/10 overflow-hidden">
+                            <div className="aspect-video relative bg-card border-b border-border overflow-hidden">
                                 <img
                                     src={article.image}
                                     alt={article.title}
                                     className="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-75 group-hover:scale-105 transition-all duration-700"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-60" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
                                 <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#00f0ff_1px,transparent_1px),linear-gradient(to_bottom,#00f0ff_1px,transparent_1px)] bg-[size:10px_10px]" />
                                 <div className="absolute inset-0 flex items-center justify-center opacity-10 group-hover:opacity-20 transition-opacity">
-                                    <span className="text-6xl font-black text-white/5">{article.category[0]}</span>
+                                    <span className="text-6xl font-black text-foreground/5">{article.category[0]}</span>
                                 </div>
                             </div>
 
@@ -119,10 +119,10 @@ const InsightsSection = () => {
                                 <div>
                                     <div className="flex items-center justify-between mb-12">
                                         <span className="text-[10px] uppercase font-black tracking-widest text-primary">{article.category}</span>
-                                        <span className="text-[10px] uppercase font-bold text-white/30">{article.readTime}</span>
+                                        <span className="text-[10px] uppercase font-bold text-foreground/30">{article.readTime}</span>
                                     </div>
 
-                                    <h3 className="text-2xl md:text-3xl font-black text-white mb-6 group-hover:text-primary transition-colors leading-tight uppercase">
+                                    <h3 className="text-2xl md:text-3xl font-black text-foreground mb-6 group-hover:text-primary transition-colors leading-tight uppercase">
                                         {article.title}
                                     </h3>
 
@@ -131,9 +131,9 @@ const InsightsSection = () => {
                                     </p>
                                 </div>
 
-                                <div className="flex items-center justify-between pt-8 border-t border-white/5">
-                                    <span className="text-[10px] uppercase font-black tracking-widest text-white/40">{article.tag}</span>
-                                    <ArrowUpRight size={20} className="text-white/20 group-hover:text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                                <div className="flex items-center justify-between pt-8 border-t border-border">
+                                    <span className="text-[10px] uppercase font-black tracking-widest text-foreground/40">{article.tag}</span>
+                                    <ArrowUpRight size={20} className="text-foreground/20 group-hover:text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
                                 </div>
                             </div>
 
@@ -151,27 +151,27 @@ const InsightsSection = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-black/95 backdrop-blur-xl"
+                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-background/95 backdrop-blur-xl"
                     >
                         <motion.div
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: 20, opacity: 0 }}
-                            className="w-full max-w-4xl bg-[#0a0a0a] border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+                            className="w-full max-w-4xl bg-card border border-border rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
                         >
                             {/* Modal Header */}
-                            <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/50">
+                            <div className="p-6 border-b border-border flex items-center justify-between bg-background/50">
                                 <div className="flex items-center gap-4">
                                     <span className="text-[10px] font-black tracking-widest text-primary uppercase bg-primary/10 px-3 py-1 rounded-full">
                                         {selectedArticle.category}
                                     </span>
-                                    <span className="text-[10px] font-bold text-white/40 flex items-center gap-2">
+                                    <span className="text-[10px] font-bold text-foreground/40 flex items-center gap-2">
                                         <Clock size={12} /> {selectedArticle.readTime}
                                     </span>
                                 </div>
                                 <button
                                     onClick={() => setSelectedArticle(null)}
-                                    className="p-2 hover:bg-white/10 rounded-full text-white/40 hover:text-white transition-all"
+                                    className="p-2 hover:bg-muted rounded-full text-foreground/40 hover:text-foreground transition-all"
                                 >
                                     <X size={24} />
                                 </button>
@@ -185,7 +185,7 @@ const InsightsSection = () => {
                                         <span className="text-[10px] uppercase font-black tracking-[0.4em] text-primary">{selectedArticle.tag}</span>
                                     </div>
 
-                                    <h1 className="text-4xl md:text-5xl font-black text-white mb-8 leading-tight tracking-tighter uppercase whitespace-pre-wrap">
+                                    <h1 className="text-4xl md:text-5xl font-black text-foreground mb-8 leading-tight tracking-tighter uppercase whitespace-pre-wrap">
                                         {selectedArticle.title}
                                     </h1>
 
@@ -195,11 +195,11 @@ const InsightsSection = () => {
                                         className="w-full aspect-video object-cover rounded-xl mb-12 grayscale hover:grayscale-0 transition-all duration-700"
                                     />
 
-                                    <div className="prose prose-invert prose-primary max-w-none text-white/70 leading-relaxed text-lg font-medium space-y-8">
+                                    <div className="prose prose-primary dark:prose-invert max-w-none text-foreground/70 leading-relaxed text-lg font-medium space-y-8">
                                         {selectedArticle.fullContent.split('\n\n').map((paragraph, idx) => (
                                             <div key={idx} className="whitespace-pre-wrap">
                                                 {paragraph.startsWith('##') ? (
-                                                    <h2 className="text-2xl font-black text-white mt-12 mb-6 uppercase tracking-tight border-l-4 border-primary pl-6">
+                                                    <h2 className="text-2xl font-black text-foreground mt-12 mb-6 uppercase tracking-tight border-l-4 border-primary pl-6">
                                                         {paragraph.replace('##', '').trim()}
                                                     </h2>
                                                 ) : paragraph.startsWith('###') ? (
@@ -222,16 +222,16 @@ const InsightsSection = () => {
                                         ))}
                                     </div>
 
-                                    <div className="mt-20 pt-12 border-t border-white/5 flex flex-wrap gap-8 items-center justify-between">
+                                    <div className="mt-20 pt-12 border-t border-border flex flex-wrap gap-8 items-center justify-between">
                                         <div className="flex gap-6">
-                                            <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-primary transition-colors">
+                                            <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-foreground/40 hover:text-primary transition-colors">
                                                 <Share2 size={14} /> Share Article
                                             </button>
-                                            <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-primary transition-colors">
+                                            <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-foreground/40 hover:text-primary transition-colors">
                                                 <Printer size={14} /> Print
                                             </button>
                                         </div>
-                                        <span className="text-[10px] font-mono text-white/20">KIVO_INTEL_FRONTIER_2026</span>
+                                        <span className="text-[10px] font-mono text-foreground/20">KIVO_INTEL_FRONTIER_2026</span>
                                     </div>
                                 </div>
                             </div>

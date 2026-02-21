@@ -60,7 +60,7 @@ const ServicesSection = () => {
   const [expanded, setExpanded] = useState<number | null>(null);
 
   return (
-    <section id="services" className="relative py-24 md:py-40 bg-[#050505] border-t border-white/5">
+    <section id="services" className="relative py-24 md:py-40 bg-background border-t border-border">
       <div className="container mx-auto px-4">
         <ScrollAnimator>
           <div className="max-w-3xl mb-24">
@@ -68,45 +68,45 @@ const ServicesSection = () => {
               <div className="w-8 h-[2px] bg-primary" />
               <span className="text-[10px] uppercase font-black tracking-[0.5em] text-primary">ELITE CAPABILITIES</span>
             </div>
-            <h2 className="text-h2-elite text-white">
-              What We <br /> <span className="text-white/40">Execute</span>
+            <h2 className="text-h2-elite text-foreground">
+              What We <br /> <span className="text-foreground/40">Execute</span>
             </h2>
           </div>
         </ScrollAnimator>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10 overflow-hidden">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border overflow-hidden">
           {services.map((service, i) => {
             const isExpanded = expanded === i;
 
             return (
               <ScrollAnimator key={service.title} delay={i * 100}>
                 <div
-                  className={`relative p-12 bg-[#050505] transition-all duration-700 cursor-pointer h-full group hover:bg-white/[0.02] ${isExpanded ? "z-10 bg-white/[0.03]" : ""
+                  className={`relative p-12 bg-background transition-all duration-700 cursor-pointer h-full group hover:bg-muted ${isExpanded ? "z-10 bg-muted" : ""
                     }`}
                   onClick={() => setExpanded(isExpanded ? null : i)}
                 >
                   <ServiceGrid type={service.title} />
 
                   <div className="relative z-10">
-                    <div className={`p-4 border border-white/10 w-fit mb-12 transition-colors ${isExpanded || "group-hover:border-primary/40"}`}>
+                    <div className={`p-4 border border-border w-fit mb-12 transition-colors ${isExpanded || "group-hover:border-primary/40"}`}>
                       <service.icon
-                        className={`transition-all duration-300 ${isExpanded ? "text-primary scale-110" : "text-white/40 group-hover:text-primary"
+                        className={`transition-all duration-300 ${isExpanded ? "text-primary scale-110" : "text-foreground/40 group-hover:text-primary"
                           }`}
                         size={24}
                       />
                     </div>
 
-                    <h3 className="text-2xl font-black text-white mb-6 uppercase tracking-tighter leading-tight">{service.title}</h3>
+                    <h3 className="text-2xl font-black text-foreground mb-6 uppercase tracking-tighter leading-tight">{service.title}</h3>
                     <p className="text-muted-foreground font-medium mb-8 leading-relaxed opacity-60 group-hover:opacity-100 transition-opacity">{service.short}</p>
 
                     {isExpanded && (
-                      <div className="space-y-8 animate-fade-in pt-8 border-t border-white/10">
-                        <p className="text-white/70 text-sm leading-relaxed font-medium">{service.details}</p>
+                      <div className="space-y-8 animate-fade-in pt-8 border-t border-border">
+                        <p className="text-foreground/70 text-sm leading-relaxed font-medium">{service.details}</p>
                         <div>
                           <p className="text-[10px] text-primary font-black uppercase tracking-[0.3em] mb-4">Strategic Applications</p>
                           <ul className="space-y-3">
                             {service.useCases.map((uc) => (
-                              <li key={uc} className="text-xs text-white/60 flex items-center gap-2 font-bold uppercase tracking-tight">
+                              <li key={uc} className="text-xs text-foreground/60 flex items-center gap-2 font-bold uppercase tracking-tight">
                                 <span className="w-1.5 h-1.5 bg-primary flex-shrink-0" />
                                 {uc}
                               </li>
@@ -115,7 +115,7 @@ const ServicesSection = () => {
                         </div>
                         <a
                           href="#contact"
-                          className="inline-flex items-center gap-3 text-white font-black text-[10px] uppercase tracking-widest hover:text-primary transition-colors pt-4"
+                          className="inline-flex items-center gap-3 text-foreground font-black text-[10px] uppercase tracking-widest hover:text-primary transition-colors pt-4"
                           onClick={(e) => e.stopPropagation()}
                         >
                           Project Brief <ArrowRight size={12} />
@@ -124,7 +124,7 @@ const ServicesSection = () => {
                     )}
 
                     {!isExpanded && (
-                      <div className="flex items-center justify-between mt-8 pt-8 border-t border-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="flex items-center justify-between mt-8 pt-8 border-t border-border opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         <span className="text-primary text-[10px] font-black uppercase tracking-[0.3em]">
                           Analyze Expertise
                         </span>

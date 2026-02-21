@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
   { name: "Showcase", href: "#showcase" },
@@ -21,7 +22,7 @@ const Logo = () => (
       <div className="absolute top-0 left-0 w-full h-[2px] bg-primary/40 animate-logo-scan" />
     </div>
     <div className="flex flex-col">
-      <span className="text-xl font-display font-black tracking-tighter text-white leading-none">KIVO</span>
+      <span className="text-xl font-display font-black tracking-tighter text-foreground leading-none">KIVO</span>
       <span className="text-[7px] font-black tracking-[0.4em] text-primary/60 uppercase">Intelligence Frontier</span>
     </div>
   </div>
@@ -39,7 +40,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#050505]/80 backdrop-blur-2xl border-b border-white/5 py-4" : "bg-transparent py-8"
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-background/80 backdrop-blur-2xl border-b border-white/5 py-4" : "bg-transparent py-8"
         }`}
     >
       <div className="container mx-auto px-4">
@@ -59,21 +60,27 @@ const Navbar = () => {
                 {link.name}
               </a>
             ))}
-            <a
-              href="#contact"
-              className="px-6 py-3 bg-white text-[#050505] font-black text-[10px] uppercase tracking-widest hover:bg-primary transition-colors flex items-center gap-2 group"
-            >
-              Initiate Project <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-            </a>
+            <div className="flex items-center gap-6">
+              <ThemeToggle />
+              <a
+                href="#contact"
+                className="px-6 py-3 bg-foreground text-background font-black text-[10px] uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-colors flex items-center gap-2 group"
+              >
+                Initiate Project <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </a>
+            </div>
           </div>
 
-          {/* Mobile Toggle */}
-          <button
-            className="lg:hidden text-white p-2"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          {/* Mobile Toggle & Theme */}
+          <div className="flex items-center gap-4 lg:hidden">
+            <ThemeToggle />
+            <button
+              className="text-foreground p-2"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -85,14 +92,14 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "tween", duration: 0.5 }}
-            className="fixed inset-0 bg-[#050505] z-40 lg:hidden flex flex-col p-8 pt-32"
+            className="fixed inset-0 bg-background z-40 lg:hidden flex flex-col p-8 pt-32"
           >
             <div className="flex flex-col gap-8">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-4xl font-black text-white hover:text-primary transition-colors uppercase tracking-tight"
+                  className="text-4xl font-black text-foreground hover:text-primary transition-colors uppercase tracking-tight"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}

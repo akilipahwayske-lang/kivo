@@ -33,7 +33,7 @@ const TestimonialsSection = () => {
     const prev = () => setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
 
     return (
-        <section id="testimonials" className="py-24 md:py-40 bg-[#050505] relative overflow-hidden">
+        <section id="testimonials" className="py-24 md:py-40 bg-background relative overflow-hidden">
             <div className="absolute inset-0 neural-grid opacity-5 pointer-events-none" />
 
             <div className="container mx-auto px-4 relative z-10">
@@ -55,15 +55,15 @@ const TestimonialsSection = () => {
                             >
                                 <div className="md:col-span-8">
                                     <Quote size={60} className="text-primary/20 mb-12" />
-                                    <blockquote className="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tighter uppercase">
+                                    <blockquote className="text-3xl md:text-5xl lg:text-6xl font-black text-foreground leading-[1.1] tracking-tighter uppercase">
                                         "{testimonials[current].quote}"
                                     </blockquote>
                                 </div>
 
-                                <div className="md:col-span-4 border-l border-white/5 pl-12 py-8">
+                                <div className="md:col-span-4 border-l border-border pl-12 py-8">
                                     <div className="space-y-8">
                                         <div>
-                                            <h4 className="text-2xl font-black text-white uppercase tracking-tight">{testimonials[current].author}</h4>
+                                            <h4 className="text-2xl font-black text-foreground uppercase tracking-tight">{testimonials[current].author}</h4>
                                             <p className="text-muted-foreground font-bold text-xs uppercase tracking-widest mt-1 opacity-60">
                                                 {testimonials[current].role}
                                             </p>
@@ -71,7 +71,7 @@ const TestimonialsSection = () => {
 
                                         <div>
                                             <span className="text-[10px] uppercase font-black tracking-widest text-primary/80">Organization</span>
-                                            <p className="text-lg font-black text-white/50 uppercase">{testimonials[current].org}</p>
+                                            <p className="text-lg font-black text-foreground/50 uppercase">{testimonials[current].org}</p>
                                         </div>
 
                                         <div>
@@ -88,13 +88,13 @@ const TestimonialsSection = () => {
                         <div className="flex gap-4 mt-20">
                             <button
                                 onClick={prev}
-                                className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-[#050505] transition-all"
+                                className="w-16 h-16 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-foreground hover:text-background transition-all"
                             >
                                 <ChevronLeft size={24} />
                             </button>
                             <button
                                 onClick={next}
-                                className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-[#050505] transition-all"
+                                className="w-16 h-16 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-foreground hover:text-background transition-all"
                             >
                                 <ChevronRight size={24} />
                             </button>
