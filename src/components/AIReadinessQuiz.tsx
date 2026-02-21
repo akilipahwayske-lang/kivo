@@ -115,12 +115,24 @@ const AIReadinessQuiz = () => {
     }
   };
 
-  const handleEmailSubmit = (e: React.FormEvent) => {
+  const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsComplete(true);
-    setShowEmailGate(false);
-    // In a real app, send lead to CRM here
-    console.log("New Lead Captured:", { email, answers });
+
+    // Formspree Integration Point
+    try {
+      await fetch("https://formspree.io/f/xvgzpyzo", { // Placeholder - same as contact form
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, audit_score: totalScore, audit_percentage: percentage, audit_level: rec.level, answers }),
+      });
+      setIsComplete(true);
+      setShowEmailGate(false);
+    } catch (err) {
+      console.error("Lead capture failed", err);
+      // Still show results to user even if capture fails to ensure good UX
+      setIsComplete(true);
+      setShowEmailGate(false);
+    }
   };
 
   const handleBack = () => {

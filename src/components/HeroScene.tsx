@@ -1,65 +1,74 @@
 import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, MeshWobbleMaterial, Sphere } from "@react-three/drei";
+import { Points, PointMaterial, MeshWobbleMaterial, OrbitControls, Float } from "@react-three/drei";
 import * as THREE from "three";
 
-const Particles = () => {
+const BackgroundParticles = () => {
   const ref = useRef<THREE.Points>(null);
-  const count = 1000;
+  const count = 3000;
 
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count * 3; i++) {
-      pos[i] = (Math.random() - 0.5) * 20;
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 15;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 15;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 15;
     }
     return pos;
   }, []);
 
   useFrame((state) => {
     if (ref.current) {
-      ref.current.rotation.y = state.clock.elapsedTime * 0.05;
-      ref.current.rotation.x = state.clock.elapsedTime * 0.02;
+      ref.current.rotation.y = state.clock.getElapsedTime() * 0.03;
+      ref.current.rotation.x = state.clock.getElapsedTime() * 0.01;
     }
   });
 
   return (
-    <points ref={ref}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial size={0.02} color="#00b4d8" transparent opacity={0.4} sizeAttenuation />
-    </points>
+    <Points ref={ref} positions={positions} stride={3}>
+      <PointMaterial
+        transparent
+        color="#00b4d8"
+        size={0.012}
+        sizeAttenuation={true}
+        depthWrite={false}
+        opacity={0.4}
+      />
+    </Points>
   );
 };
 
-const CoreSphere = () => {
-  const meshRef = useRef<THREE.Mesh>(null);
+const AfricaWireframe = () => {
+  const ref = useRef<THREE.Group>(null);
+
+  // Simplified Africa Shape Wireframe
+  const points = useMemo(() => {
+    const shape = new THREE.Shape();
+    shape.moveTo(0, 1);
+    shape.lineTo(0.5, 0.8);
+    shape.lineTo(0.7, 0.4);
+    shape.lineTo(0.8, 0);
+    shape.lineTo(0.6, -0.6);
+    shape.lineTo(0.2, -1);
+    shape.lineTo(-0.1, -0.6);
+    shape.lineTo(-0.4, -0.2);
+    shape.lineTo(-0.8, 0);
+    shape.lineTo(-0.7, 0.6);
+    shape.lineTo(-0.3, 0.9);
+    shape.closePath();
+    return new THREE.ShapeGeometry(shape);
+  }, []);
 
   useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.2;
-      meshRef.current.rotation.z = state.clock.elapsedTime * 0.1;
+    if (ref.current) {
+      ref.current.rotation.y = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.1;
     }
   });
 
   return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-      <mesh ref={meshRef}>
-        <icosahedronGeometry args={[1.2, 10]} />
-        <MeshDistortMaterial
-          color="#00b4d8"
-          emissive="#00b4d8"
-          emissiveIntensity={0.5}
-          roughness={0.1}
-          metalness={1}
-          distort={0.4}
-          speed={4}
-        />
-      </mesh>
-      {/* Outer Glow Sphere */}
-      <mesh scale={[1.4, 1.4, 1.4]}>
-        <sphereGeometry args={[1, 32, 32]} />
-        <meshBasicMaterial color="#00b4d8" transparent opacity={0.05} wireframe />
+    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+      <mesh geometry={points} scale={1.8} position={[0, 0, -1]} rotation={[0, 0, 0]}>
+        <meshBasicMaterial color="#00b4d8" wireframe opacity={0.15} transparent />
       </mesh>
     </Float>
   );
@@ -70,37 +79,50 @@ const OrbitRing = ({ radius, speed, color, rotationX = 0 }: { radius: number; sp
 
   useFrame((state) => {
     if (ref.current) {
-      ref.current.rotation.y = state.clock.elapsedTime * speed;
+      ref.current.rotation.z = state.clock.getElapsedTime() * speed;
     }
   });
 
   return (
     <mesh ref={ref} rotation={[rotationX, 0, 0]}>
-      <torusGeometry args={[radius, 0.005, 16, 100]} />
-      <meshBasicMaterial color={color} transparent opacity={0.2} />
+      <ringGeometry args={[radius, radius + 0.015, 128]} />
+      <meshBasicMaterial color={color} transparent opacity={0.3} side={THREE.DoubleSide} />
     </mesh>
   );
 };
 
 const HeroScene = () => {
   return (
-    <div className="absolute inset-0 z-0">
+    <div className="w-full h-full opacity-60">
       <Canvas camera={{ position: [0, 0, 6], fov: 45 }} dpr={[1, 2]}>
-        <ambientLight intensity={0.1} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} color="#00b4d8" />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} color="#d4a012" />
+        <ambientLight intensity={0.2} />
+        <pointLight position={[10, 10, 10]} intensity={1.5} color="#00b4d8" />
+        <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ffb703" />
 
-        <CoreSphere />
+        <BackgroundParticles />
+        <AfricaWireframe />
 
-        <OrbitRing radius={2.2} speed={0.5} color="#00b4d8" rotationX={Math.PI / 3} />
-        <OrbitRing radius={2.8} speed={-0.3} color="#d4a012" rotationX={-Math.PI / 4} />
-        <OrbitRing radius={3.5} speed={0.2} color="#00b4d8" rotationX={Math.PI / 2.5} />
+        <mesh position={[0, 0, 0]}>
+          <sphereGeometry args={[1, 64, 64]} />
+          <MeshWobbleMaterial
+            color="#00b4d8"
+            factor={0.4}
+            speed={1.5}
+            roughness={0.1}
+            metalness={0.9}
+            emissive="#00b4d8"
+            emissiveIntensity={0.5}
+          />
+        </mesh>
 
-        <Particles />
+        <OrbitRing radius={1.8} speed={0.4} color="#00b4d8" rotationX={Math.PI / 3} />
+        <OrbitRing radius={2.2} speed={-0.3} color="#ffb703" rotationX={-Math.PI / 4} />
+        <OrbitRing radius={2.6} speed={0.2} color="#00b4d8" rotationX={Math.PI / 2.5} />
+
+        <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
       </Canvas>
     </div>
   );
 };
-
 
 export default HeroScene;

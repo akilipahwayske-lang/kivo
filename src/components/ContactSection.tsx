@@ -1,164 +1,150 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, MapPin, Mail, Phone, CheckCircle2, Users, Rocket, Globe } from "lucide-react";
+import { Send, Mail, MapPin, Linkedin, Twitter, Github, CheckCircle } from "lucide-react";
 
 const ContactSection = () => {
-  const [form, setForm] = useState({ name: "", email: "", org: "", industry: "", message: "" });
-  const [submitted, setSubmitted] = useState(false);
+  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    console.log("Contact Form Lead:", form);
+    setStatus("submitting");
+
+    // Formspree Integration Point
+    try {
+      const response = await fetch("https://formspree.io/f/xvgzpyzo", { // Placeholder - user should update with their ID
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formState),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        setFormState({ name: "", email: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch (err) {
+      setStatus("error");
+    }
   };
 
-  const socialProof = [
-    { icon: <Users size={20} />, label: "50+ Organizations" },
-    { icon: <Rocket size={20} />, label: "200+ Workshops" },
-    { icon: <Globe size={20} />, label: "African Footprint" },
-  ];
-
   return (
-    <section id="contact" className="relative py-24 md:py-40 bg-kivo-dark">
-      {/* Decorative Blur */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[150px] rounded-full pointer-events-none" />
+    <section id="contact" className="py-24 md:py-32 relative overflow-hidden bg-kivo-darker">
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-20 items-start max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-start">
 
-          {/* Content side */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-10"
-          >
-            <div className="space-y-4">
-              <span className="text-primary text-xs font-bold uppercase tracking-[0.3em] block">Connect with Experts</span>
-              <h2 className="font-display font-black text-5xl md:text-7xl text-white leading-[0.9]">
-                Let's Build Your <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-kivo-glow text-glow">Intelligent Edge</span>
+          {/* Info Side */}
+          <div className="space-y-12">
+            <div>
+              <h2 className="font-display font-black text-5xl md:text-7xl mb-6 text-white leading-none">
+                Let's Build the <span className="text-primary text-glow">Future</span>
               </h2>
-              <p className="text-muted-foreground text-xl max-w-md leading-relaxed">
-                Whether you're exploring AI strategy or ready to scale deep learning, our team in Nairobi is here to guide your journey.
+              <p className="text-muted-foreground text-lg font-medium leading-relaxed max-w-md">
+                Ready to transform your organization with AI? Our team in Nairobi is ready to help you innovate and scale.
               </p>
             </div>
 
-            <div className="grid gap-6">
-              {socialProof.map((item, i) => (
-                <div key={i} className="flex items-center gap-4 group">
-                  <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary/20 group-hover:border-primary/50 transition-all">
-                    {item.icon}
+            <div className="space-y-8">
+              {[
+                { icon: Mail, label: "Email", value: "hello@kivo.ai", href: "mailto:hello@kivo.ai" },
+                { icon: MapPin, label: "Nexus", value: "Nairobi, Kenya" },
+              ].map((item) => (
+                <div key={item.label} className="flex items-start gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm group hover:border-primary/30 transition-colors">
+                  <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:scale-110 transition-transform">
+                    <item.icon size={24} />
                   </div>
-                  <span className="text-lg font-bold text-white/80">{item.label}</span>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-1">{item.label}</p>
+                    {item.href ? (
+                      <a href={item.href} className="text-xl font-bold text-white hover:text-primary transition-colors">{item.value}</a>
+                    ) : (
+                      <p className="text-xl font-bold text-white">{item.value}</p>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
 
-            <div className="pt-8 border-t border-white/5 space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                  <Mail size={18} />
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground font-bold">Email Us</p>
-                  <p className="text-white font-bold text-lg">hello@kivo.ai</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                  <MapPin size={18} />
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground font-bold">Visit Us</p>
-                  <p className="text-white font-bold text-lg">Westlands, Nairobi, Kenya 🇰🇪</p>
-                </div>
-              </div>
+            <div className="pt-8 flex items-center gap-6">
+              {[Linkedin, Twitter, Github].map((Icon, i) => (
+                <a key={i} href="#" className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all">
+                  <Icon size={20} />
+                </a>
+              ))}
             </div>
-          </motion.div>
+          </div>
 
-          {/* Form side */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="glass-card p-8 md:p-12 rounded-[2.5rem] border-white/10 relative overflow-hidden"
-          >
-            {!submitted ? (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+          {/* Form Side */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-primary/5 blur-3xl rounded-full translate-y-10" />
+            <div className="relative p-10 md:p-12 rounded-[2.5rem] bg-card border border-white/10 shadow-2xl backdrop-blur-2xl">
+              {status === "success" ? (
+                <div className="text-center py-20 animate-fade-in">
+                  <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-8 border border-primary/30">
+                    <CheckCircle className="text-primary" size={40} />
+                  </div>
+                  <h3 className="font-display font-bold text-3xl text-white mb-2">Message Sent!</h3>
+                  <p className="text-muted-foreground font-medium mb-8">We'll get back to you within 24 hours.</p>
+                  <button
+                    onClick={() => setStatus("idle")}
+                    className="px-8 py-3 rounded-xl bg-white/5 text-white font-bold hover:bg-white/10 transition-all"
+                  >
+                    Send another message
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-2">
-                    <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Name</label>
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1">Name</label>
                     <input
                       required
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-primary focus:bg-white/10 transition-all font-bold"
-                      placeholder="Jane Doe"
+                      type="text"
+                      className="w-full bg-kivo-darker border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-primary/50 transition-colors font-medium"
+                      placeholder="Your name"
+                      value={formState.name}
+                      onChange={e => setFormState({ ...formState, name: e.target.value })}
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Email</label>
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1">Work Email</label>
                     <input
+                      required
                       type="email"
-                      required
-                      value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-primary focus:bg-white/10 transition-all font-bold"
-                      placeholder="jane@company.com"
+                      className="w-full bg-kivo-darker border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-primary/50 transition-colors font-medium"
+                      placeholder="you@company.com"
+                      value={formState.email}
+                      onChange={e => setFormState({ ...formState, email: e.target.value })}
                     />
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Organization</label>
-                  <input
-                    value={form.org}
-                    onChange={(e) => setForm({ ...form, org: e.target.value })}
-                    className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-primary focus:bg-white/10 transition-all font-bold"
-                    placeholder="Enter your company name"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Message</label>
-                  <textarea
-                    rows={4}
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-primary focus:bg-white/10 transition-all font-bold resize-none"
-                    placeholder="Tell us about your project..."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full flex items-center justify-center gap-3 px-8 py-5 rounded-2xl bg-primary text-primary-foreground font-black text-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-primary/30 border-glow"
-                >
-                  Initiate Discovery <Send size={20} />
-                </button>
-              </form>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center justify-center py-20 text-center space-y-6"
-              >
-                <div className="w-24 h-24 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                  <CheckCircle2 size={48} />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="font-display font-black text-3xl text-white">Inquiry Received</h3>
-                  <p className="text-muted-foreground text-lg max-w-xs mx-auto">
-                    An AI strategist will reach out within 12 business hours. <br /> Asante sana! 🙏
-                  </p>
-                </div>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="text-primary font-bold hover:underline"
-                >
-                  Send another message
-                </button>
-              </motion.div>
-            )}
-          </motion.div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1">Message</label>
+                    <textarea
+                      required
+                      rows={5}
+                      className="w-full bg-kivo-darker border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-primary/50 transition-colors font-medium resize-none"
+                      placeholder="Tell us about your project"
+                      value={formState.message}
+                      onChange={e => setFormState({ ...formState, message: e.target.value })}
+                    />
+                  </div>
+                  <button
+                    disabled={status === "submitting"}
+                    className="w-full py-5 rounded-2xl bg-primary text-primary-foreground font-black text-xl hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-primary/20 flex items-center justify-center gap-3 disabled:opacity-50"
+                  >
+                    {status === "submitting" ? "Sending..." : (
+                      <>
+                        Initiate Transmission <Send size={20} />
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -166,4 +152,3 @@ const ContactSection = () => {
 };
 
 export default ContactSection;
-
