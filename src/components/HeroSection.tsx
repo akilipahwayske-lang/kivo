@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight } from "lucide-react";
-import HeroScene from "./HeroScene";
+import HeroVideoSimulation from "./HeroVideoSimulation";
 import { useEffect, useState } from "react";
 
 const AnimatedCounter = ({ value }: { value: string }) => {
@@ -31,15 +31,20 @@ const AnimatedCounter = ({ value }: { value: string }) => {
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-[#050505]">
-      {/* Neural Background */}
-      <div className="absolute inset-0 z-0 opacity-40">
-        <HeroScene />
+      {/* Cinematic Simulation Layer */}
+      <div className="absolute inset-0 z-0">
+        <HeroVideoSimulation />
       </div>
 
-      {/* Strategic Overlays */}
-      <div className="absolute inset-0 z-1 pointer-events-none">
+      {/* Film Texture Overlays */}
+      <div className="absolute inset-0 z-1 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-film-grain" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505] opacity-80" />
         <div className="absolute inset-0 neural-grid opacity-10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-transparent to-[#050505]" />
+
+        {/* Kinetic Light Leaks */}
+        <div className="absolute top-0 right-0 w-[60%] h-[40%] bg-primary/5 blur-[120px] rounded-full animate-float-slow" />
+        <div className="absolute bottom-0 left-0 w-[50%] h-[50%] bg-secondary/5 blur-[150px] rounded-full animate-pulse-glow" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
