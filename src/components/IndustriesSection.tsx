@@ -29,41 +29,54 @@ const industries = [
   },
 ];
 
+const SectorVisual = ({ type }: { type: string }) => (
+  <div className="absolute top-0 right-0 w-32 h-32 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-br from-primary/40 to-transparent" style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }} />
+    <div className="absolute top-4 right-4 text-[40px] font-black text-white/10 uppercase tracking-tighter">
+      {type}
+    </div>
+  </div>
+);
+
 const IndustriesSection = () => {
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
 
   return (
-    <section id="industries" className="relative py-24 md:py-32 bg-kivo-dark">
-      <div className="absolute inset-0 afro-pattern opacity-10" />
+    <section id="industries" className="relative py-24 md:py-32 bg-[#050505]">
+      <div className="absolute inset-0 neural-grid opacity-5" />
       <div className="container mx-auto px-4 relative">
         <ScrollAnimator>
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="text-primary text-sm font-semibold uppercase tracking-[0.3em]">Industry Impact</span>
-            <h2 className="font-display font-black text-4xl md:text-6xl mt-4 mb-6 text-foreground leading-tight">
-              Sectors We <span className="text-primary text-glow">Transform</span>
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="w-8 h-[2px] bg-primary" />
+              <span className="text-[10px] uppercase font-black tracking-[0.5em] text-primary">SECTOR IMPACT</span>
+              <div className="w-8 h-[2px] bg-primary" />
+            </div>
+            <h2 className="text-h2-elite text-white">
+              Sectors We <br /> <span className="text-white/40">Transform</span>
             </h2>
-            <p className="text-muted-foreground text-lg font-medium">
-              We focus on the industries that shape our future, delivering AI that solves real-world African challenges.
-            </p>
           </div>
         </ScrollAnimator>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 border border-white/5">
           {industries.map((ind, i) => {
             const isActive = activeIdx === i;
+            const sectorCode = ind.title.split(' ')[0].substring(0, 3);
             return (
               <ScrollAnimator key={ind.title} delay={i * 100}>
                 <div
-                  className={`p-10 rounded-3xl bg-card/40 border transition-all duration-500 cursor-pointer h-full group backdrop-blur-sm ${isActive ? "border-primary/50 border-glow scale-[1.02]" : "border-white/5 hover:border-primary/20"
+                  className={`relative p-12 bg-[#050505] transition-all duration-700 cursor-pointer h-full group hover:bg-white/[0.02] ${isActive ? "z-10 ring-1 ring-primary/30" : ""
                     }`}
                   onClick={() => setActiveIdx(isActive ? null : i)}
                 >
-                  <div className={`p-4 rounded-2xl w-fit mb-6 transition-colors ${isActive ? "bg-primary/20" : "bg-white/5 group-hover:bg-primary/10"}`}>
-                    <ind.icon className={`transition-all duration-300 ${isActive ? "text-primary scale-110" : "text-muted-foreground group-hover:text-primary"}`} size={32} />
+                  <SectorVisual type={sectorCode} />
+
+                  <div className={`p-4 border border-white/10 w-fit mb-8 transition-colors ${isActive ? "bg-primary border-primary" : "group-hover:border-primary/40"}`}>
+                    <ind.icon className={`transition-all duration-300 ${isActive ? "text-[#050505]" : "text-white/40 group-hover:text-primary"}`} size={24} />
                   </div>
 
-                  <h3 className="font-display font-black text-xl mb-3 text-foreground tracking-tight">{ind.title}</h3>
-                  <p className="text-muted-foreground text-sm font-medium mb-6 leading-relaxed">{ind.desc}</p>
+                  <h3 className="text-xl font-black text-white mb-4 uppercase tracking-tighter">{ind.title}</h3>
+                  <p className="text-muted-foreground text-sm font-medium mb-8 leading-relaxed opacity-60 group-hover:opacity-100 transition-opacity">{ind.desc}</p>
 
                   <div
                     className={`overflow-hidden transition-all duration-500 border-t border-white/5 pt-4 ${isActive ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"

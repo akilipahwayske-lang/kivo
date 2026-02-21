@@ -45,80 +45,93 @@ const services = [
   },
 ];
 
+const ServiceGrid = ({ type }: { type: string }) => (
+  <div className="absolute inset-0 opacity-0 group-hover:opacity-[0.03] transition-opacity pointer-events-none overflow-hidden">
+    <div className="absolute inset-0 bg-[linear-gradient(to_right,#00f0ff_1px,transparent_1px),linear-gradient(to_bottom,#00f0ff_1px,transparent_1px)] bg-[size:20px_20px]" />
+    <div className="absolute inset-0 flex items-center justify-center">
+      <span className="text-[12rem] font-black text-white tracking-widest uppercase opacity-10 rotate-12">
+        {type.substring(0, 3)}
+      </span>
+    </div>
+  </div>
+);
+
 const ServicesSection = () => {
   const [expanded, setExpanded] = useState<number | null>(null);
 
   return (
-    <section id="services" className="relative py-24 md:py-32">
+    <section id="services" className="relative py-24 md:py-40 bg-[#050505] border-t border-white/5">
       <div className="container mx-auto px-4">
         <ScrollAnimator>
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-primary text-sm font-semibold uppercase tracking-widest">Our Expertise</span>
-            <h2 className="font-display font-black text-4xl md:text-6xl mt-4 mb-6 text-foreground">
-              What We <span className="text-secondary text-glow-gold">Execute</span>
+          <div className="max-w-3xl mb-24">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-8 h-[2px] bg-primary" />
+              <span className="text-[10px] uppercase font-black tracking-[0.5em] text-primary">ELITE CAPABILITIES</span>
+            </div>
+            <h2 className="text-h2-elite text-white">
+              What We <br /> <span className="text-white/40">Execute</span>
             </h2>
-            <p className="text-muted-foreground text-lg font-medium">
-              Elite AI solutions engineered for the unique challenges and opportunities of the African continent.
-            </p>
           </div>
         </ScrollAnimator>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10 overflow-hidden">
           {services.map((service, i) => {
             const isExpanded = expanded === i;
-            const colorClasses = service.color === "secondary"
-              ? "border-secondary/30 border-glow-gold"
-              : "border-primary/30 border-glow";
 
             return (
               <ScrollAnimator key={service.title} delay={i * 100}>
                 <div
-                  className={`relative p-10 rounded-3xl bg-card border transition-all duration-500 cursor-pointer group hover:scale-[1.02] ${isExpanded
-                      ? `${colorClasses} md:col-span-2 lg:col-span-1 shadow-2xl`
-                      : "border-border hover:border-primary/50"
+                  className={`relative p-12 bg-[#050505] transition-all duration-700 cursor-pointer h-full group hover:bg-white/[0.02] ${isExpanded ? "z-10 bg-white/[0.03]" : ""
                     }`}
                   onClick={() => setExpanded(isExpanded ? null : i)}
                 >
-                  <service.icon
-                    className={`mb-6 transition-all duration-300 ${service.color === "secondary" ? "text-secondary" : "text-primary"
-                      } ${isExpanded ? "scale-125" : "group-hover:scale-110"}`}
-                    size={42}
-                  />
+                  <ServiceGrid type={service.title} />
 
-                  <h3 className="font-display font-black text-2xl mb-4 text-foreground tracking-tight">{service.title}</h3>
-                  <p className="text-muted-foreground mb-6 font-medium leading-relaxed">{service.short}</p>
+                  <div className="relative z-10">
+                    <div className={`p-4 border border-white/10 w-fit mb-12 transition-colors ${isExpanded || "group-hover:border-primary/40"}`}>
+                      <service.icon
+                        className={`transition-all duration-300 ${isExpanded ? "text-primary scale-110" : "text-white/40 group-hover:text-primary"
+                          }`}
+                        size={24}
+                      />
+                    </div>
 
-                  {isExpanded && (
-                    <div className="space-y-6 animate-fade-in">
-                      <p className="text-muted-foreground text-sm leading-relaxed border-l-2 border-primary/20 pl-4">{service.details}</p>
-                      <div>
-                        <p className="text-[10px] text-secondary font-black uppercase tracking-[0.2em] mb-3">Key Use Cases</p>
-                        <ul className="space-y-2">
-                          {service.useCases.map((uc) => (
-                            <li key={uc} className="text-sm text-foreground/80 flex items-center gap-2">
-                              <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
-                              {uc}
-                            </li>
-                          ))}
-                        </ul>
+                    <h3 className="text-2xl font-black text-white mb-6 uppercase tracking-tighter leading-tight">{service.title}</h3>
+                    <p className="text-muted-foreground font-medium mb-8 leading-relaxed opacity-60 group-hover:opacity-100 transition-opacity">{service.short}</p>
+
+                    {isExpanded && (
+                      <div className="space-y-8 animate-fade-in pt-8 border-t border-white/10">
+                        <p className="text-white/70 text-sm leading-relaxed font-medium">{service.details}</p>
+                        <div>
+                          <p className="text-[10px] text-primary font-black uppercase tracking-[0.3em] mb-4">Strategic Applications</p>
+                          <ul className="space-y-3">
+                            {service.useCases.map((uc) => (
+                              <li key={uc} className="text-xs text-white/60 flex items-center gap-2 font-bold uppercase tracking-tight">
+                                <span className="w-1.5 h-1.5 bg-primary flex-shrink-0" />
+                                {uc}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <a
+                          href="#contact"
+                          className="inline-flex items-center gap-3 text-white font-black text-[10px] uppercase tracking-widest hover:text-primary transition-colors pt-4"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          Project Brief <ArrowRight size={12} />
+                        </a>
                       </div>
-                      <a
-                        href="#contact"
-                        className="inline-flex items-center gap-2 text-primary font-black text-xs uppercase tracking-widest hover:text-secondary transition-colors"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        Initiate Project <ArrowRight size={14} />
-                      </a>
-                    </div>
-                  )}
+                    )}
 
-                  {!isExpanded && (
-                    <div className="flex items-center justify-between mt-4">
-                      <span className="text-primary text-[10px] font-black uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 transition-opacity">
-                        Details <ArrowRight size={10} className="inline ml-1" />
-                      </span>
-                    </div>
-                  )}
+                    {!isExpanded && (
+                      <div className="flex items-center justify-between mt-8 pt-8 border-t border-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <span className="text-primary text-[10px] font-black uppercase tracking-[0.3em]">
+                          Analyze Expertise
+                        </span>
+                        <ArrowRight size={14} className="text-primary group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    )}
+                  </div>
                 </div>
               </ScrollAnimator>
             );

@@ -29,6 +29,15 @@ const projects = [
     }
 ];
 
+const ProjectVisual = ({ sector }: { sector: string }) => (
+    <div className="absolute top-0 right-0 w-40 h-40 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-transparent to-transparent" style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }} />
+        <div className="absolute top-6 right-6 text-[4rem] font-black text-white/10 uppercase tracking-tighter leading-none">
+            {sector.substring(0, 2)}
+        </div>
+    </div>
+);
+
 const ShowcaseSection = () => {
     return (
         <section id="showcase" className="py-24 md:py-40 bg-[#050505] relative overflow-hidden">
@@ -57,7 +66,9 @@ const ShowcaseSection = () => {
                             transition={{ delay: i * 0.2 }}
                             className="group relative p-12 bg-[#050505] hover:bg-white/[0.02] transition-colors duration-700"
                         >
-                            <div className="flex justify-between items-start mb-12">
+                            <ProjectVisual sector={project.sector} />
+
+                            <div className="flex justify-between items-start mb-12 relative z-10">
                                 <project.icon size={40} className="text-primary group-hover:scale-110 group-hover:glow-text-cyan transition-all duration-500" />
                                 <ArrowUpRight size={24} className="text-white/20 group-hover:text-primary transition-colors" />
                             </div>

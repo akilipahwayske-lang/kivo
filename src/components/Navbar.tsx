@@ -11,6 +11,22 @@ const navLinks = [
   { name: "Contact", href: "#contact" },
 ];
 
+const Logo = () => (
+  <div className="flex items-center gap-3 group">
+    <div className="relative w-10 h-10 bg-[#050505] border border-primary/40 flex items-center justify-center overflow-hidden">
+      {/* Dynamic Grid Background in Logo */}
+      <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#00f0ff_1px,transparent_1px),linear-gradient(to_bottom,#00f0ff_1px,transparent_1px)] bg-[size:4px_4px]" />
+      <span className="relative z-10 text-primary font-black text-xl tracking-tighter">K</span>
+      {/* Animated Scanline */}
+      <div className="absolute top-0 left-0 w-full h-[2px] bg-primary/40 animate-logo-scan" />
+    </div>
+    <div className="flex flex-col">
+      <span className="text-xl font-display font-black tracking-tighter text-white leading-none">KIVO</span>
+      <span className="text-[7px] font-black tracking-[0.4em] text-primary/60 uppercase">Intelligence Frontier</span>
+    </div>
+  </div>
+);
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -28,11 +44,8 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-primary flex items-center justify-center font-black group-hover:scale-110 transition-transform">
-              <span className="text-[#050505] text-xl">K</span>
-            </div>
-            <span className="text-xl font-display font-black tracking-tighter text-white">KIVO</span>
+          <Link to="/" className="group">
+            <Logo />
           </Link>
 
           {/* Desktop Nav */}

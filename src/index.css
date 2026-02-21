@@ -107,4 +107,24 @@
   .data-flow-bg {
     background: radial-gradient(circle at center, rgba(0, 240, 255, 0.03) 0%, transparent 70%);
   }
+
+  @keyframes logo-scan {
+    0% {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+
+    50% {
+      opacity: 0.8;
+    }
+
+    100% {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+  }
+
+  .animate-logo-scan {
+    animation: logo-scan 3s linear infinite;
+  }
 }
