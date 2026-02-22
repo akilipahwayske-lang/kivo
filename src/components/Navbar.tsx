@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
+import { cn } from "@/lib/utils";
 
 const navLinks = [
   { name: "Showcase", href: "#showcase" },
