@@ -2,7 +2,7 @@ import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial, Float, Line, Sphere, MeshDistortMaterial, PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 const BaobabStructure = () => {
@@ -148,8 +148,17 @@ const ParticleField = () => {
 };
 
 const NextLevelHero = () => {
+    const containerRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end start"]
+    });
+
+    const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+    const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+
     return (
-        <section className="relative min-h-screen w-full bg-background overflow-hidden flex items-center">
+        <section ref={containerRef} className="relative min-h-screen w-full bg-background overflow-hidden flex items-center">
             {/* Kinetic 3D Scene */}
             <div className="absolute inset-0 z-0">
                 <Canvas dpr={[1, 2]}>
@@ -178,7 +187,10 @@ const NextLevelHero = () => {
                 <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-secondary/10 blur-[200px] rounded-full" />
             </div>
 
-            <div className="container mx-auto px-4 relative z-10 pt-20">
+            <motion.div
+                style={{ y, opacity }}
+                className="container mx-auto px-4 relative z-10 pt-20"
+            >
                 <div className="max-w-4xl">
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
@@ -214,7 +226,7 @@ const NextLevelHero = () => {
                             href="#contact"
                             className="px-10 py-6 bg-white text-[#050505] font-black text-xs uppercase tracking-[0.3em] hover:bg-primary transition-all flex items-center gap-4 group"
                         >
-                            Initiate Project <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                            Book Discovery <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                         </a>
 
                         <div className="flex flex-col">
@@ -223,7 +235,7 @@ const NextLevelHero = () => {
                         </div>
                     </motion.div>
                 </div>
-            </div>
+            </motion.div>
 
             {/* Decorative Technical Line */}
             <div className="absolute bottom-12 right-12 flex items-center gap-8 opacity-20 hidden md:flex">

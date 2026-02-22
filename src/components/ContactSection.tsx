@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Send, Mail, MapPin, Linkedin, Twitter, Github, CheckCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Send, Mail, MapPin, Linkedin, Twitter, Github, CheckCircle, ArrowRight, X } from "lucide-react";
 
 const ContactSection = () => {
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [calendlyOpen, setCalendlyOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,14 +69,61 @@ const ContactSection = () => {
               ))}
             </div>
 
-            <div className="pt-8 flex items-center gap-6">
-              {[Linkedin, Twitter, Github].map((Icon, i) => (
-                <a key={i} href="#" className="w-12 h-12 rounded-xl bg-muted border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all">
-                  <Icon size={20} />
-                </a>
-              ))}
+            <div className="pt-8 flex flex-col gap-6">
+              <button
+                onClick={() => setCalendlyOpen(true)}
+                className="w-full sm:w-fit px-8 py-4 bg-primary text-primary-foreground font-black text-xs uppercase tracking-[0.3em] hover:scale-105 transition-all flex items-center justify-center gap-3 shadow-xl shadow-primary/20"
+              >
+                Book a Strategic Call <ArrowRight size={16} />
+              </button>
+
+              <div className="flex items-center gap-6">
+                {[Linkedin, Twitter, Github].map((Icon, i) => (
+                  <a key={i} href="#" className="w-12 h-12 rounded-xl bg-muted border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-all">
+                    <Icon size={20} />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
+
+          {/* Calendly Modal */}
+          <AnimatePresence>
+            {calendlyOpen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-background/95 backdrop-blur-xl"
+              >
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
+                  className="w-full max-w-4xl bg-card border border-border rounded-2xl overflow-hidden shadow-2xl flex flex-col h-[80vh]"
+                >
+                  <div className="p-4 border-b border-border flex justify-between items-center bg-muted/50">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-primary">Schedule Discovery // KIVO AI</span>
+                    <button
+                      onClick={() => setCalendlyOpen(false)}
+                      className="p-2 hover:bg-muted rounded-full text-foreground/40 hover:text-foreground transition-all"
+                    >
+                      <X size={24} />
+                    </button>
+                  </div>
+                  <div className="flex-grow">
+                    {/* Live Calendly Embed */}
+                    <iframe
+                      src="https://calendly.com/kivokenya?embed_domain=kivo.ai&embed_type=inline"
+                      width="100%"
+                      height="100%"
+                      frameBorder="0"
+                    ></iframe>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Form Side */}
           <div className="relative">
