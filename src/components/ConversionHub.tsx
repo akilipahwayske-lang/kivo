@@ -116,15 +116,38 @@ const ExitIntentPopup = () => {
                                     <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-6">Zero spam. Pure intelligence.</p>
                                 </>
                             ) : (
-                                <div className="py-12 animate-fade-in">
-                                    <div className="w-20 h-20 bg-secondary/20 rounded-3xl flex items-center justify-center mx-auto mb-10">
-                                        <Sparkles className="text-secondary" size={40} />
+                                <div className="py-8 animate-fade-in text-left">
+                                    <div className="flex items-center gap-4 mb-8">
+                                        <div className="w-16 h-16 bg-secondary/20 rounded-2xl flex items-center justify-center border border-secondary/30">
+                                            <Sparkles className="text-secondary" size={32} />
+                                        </div>
+                                        <div>
+                                            <h2 className="text-2xl font-black text-foreground uppercase tracking-tight leading-none mb-1">Access Granted</h2>
+                                            <p className="text-[10px] uppercase font-black tracking-widest text-secondary">Broadcasting Intelligence Guide</p>
+                                        </div>
                                     </div>
-                                    <h2 className="text-4xl font-black text-foreground uppercase tracking-tighter mb-4">Transmission Sent</h2>
-                                    <p className="text-muted-foreground font-medium mb-10">Check your inbox. The 2026 Playbook is arriving now.</p>
-                                    <button onClick={() => setIsOpen(false)} className="px-10 py-4 bg-muted text-foreground font-bold rounded-xl hover:bg-muted/80 transition-all">
-                                        Return to Mission Hub
-                                    </button>
+
+                                    <div className="bg-muted/50 border border-border rounded-2xl p-6 mb-8 relative overflow-hidden">
+                                        <div className="absolute top-0 right-0 p-3">
+                                            <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+                                        </div>
+                                        <p className="text-[8px] uppercase font-black tracking-[0.2em] text-muted-foreground mb-3">Post-Transmission Tip:</p>
+                                        <p className="text-sm font-medium text-foreground leading-relaxed italic">
+                                            "Most African enterprises find that automating internal procurement workflows yields 200% ROI in the first quarter alone."
+                                        </p>
+                                    </div>
+
+                                    <div className="flex flex-col sm:flex-row gap-4">
+                                        <button className="flex-grow py-4 bg-primary text-primary-foreground font-black text-xs uppercase tracking-widest rounded-xl hover:scale-105 transition-all flex items-center justify-center gap-2">
+                                            <Download size={16} /> Force Sync Playbook (PDF)
+                                        </button>
+                                        <button
+                                            onClick={() => setIsOpen(false)}
+                                            className="px-6 py-4 bg-muted text-foreground font-bold rounded-xl hover:bg-muted/80 transition-all text-xs"
+                                        >
+                                            Dismiss
+                                        </button>
+                                    </div>
                                 </div>
                             )}
                         </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Mail, MapPin, Linkedin, Twitter, Github, CheckCircle, ArrowRight, X } from "lucide-react";
 
@@ -6,6 +6,35 @@ const ContactSection = () => {
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [calendlyOpen, setCalendlyOpen] = useState(false);
+  const [calendlyBooked, setCalendlyBooked] = useState(false);
+  const [terminalStep, setTerminalStep] = useState(0);
+
+  const missionSteps = [
+    "Encrypting Inquiry Protocol...",
+    "Establishing Secure Satellite Link...",
+    "Transmitting Data packet to Nairobi Hub...",
+    "Handshake Verified. Protocol Initiated."
+  ];
+
+  useEffect(() => {
+    if (status === "success" && terminalStep < missionSteps.length - 1) {
+      const timer = setTimeout(() => {
+        setTerminalStep(prev => prev + 1);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [status, terminalStep]);
+
+  useEffect(() => {
+    const handleCalendlyEvent = (e: any) => {
+      if (e.data.event && e.data.event === "calendly.event_scheduled") {
+        setCalendlyBooked(true);
+      }
+    };
+
+    window.addEventListener("message", handleCalendlyEvent);
+    return () => window.removeEventListener("message", handleCalendlyEvent);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,14 +140,42 @@ const ContactSection = () => {
                       <X size={24} />
                     </button>
                   </div>
-                  <div className="flex-grow">
-                    {/* Live Calendly Embed */}
-                    <iframe
-                      src="https://calendly.com/kivokenya?embed_domain=kivo.ai&embed_type=inline"
-                      width="100%"
-                      height="100%"
-                      frameBorder="0"
-                    ></iframe>
+                  <div className="flex-grow bg-muted/20">
+                    {calendlyBooked ? (
+                      <div className="h-full flex flex-col items-center justify-center p-12 text-center animate-fade-in">
+                        <div className="w-24 h-24 bg-primary/20 rounded-3xl flex items-center justify-center mb-10 border border-primary/30 relative">
+                          <CheckCircle className="text-primary" size={48} />
+                          <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse" />
+                        </div>
+                        <h2 className="text-4xl font-black text-foreground uppercase tracking-tighter mb-4">Synchronization Complete</h2>
+                        <p className="text-muted-foreground font-medium max-w-md mb-12">
+                          Your discovery session has been linked to the KIVO Network. Check your encrypted channel (inbox) for the protocol briefing.
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-lg">
+                          <div className="p-4 bg-muted border border-border rounded-xl text-left">
+                            <p className="text-[8px] font-black text-primary uppercase tracking-[0.2em] mb-2">Protocol 01</p>
+                            <p className="text-xs font-bold text-foreground">Review the 2026 AI Readiness Playbook</p>
+                          </div>
+                          <div className="p-4 bg-muted border border-border rounded-xl text-left">
+                            <p className="text-[8px] font-black text-primary uppercase tracking-[0.2em] mb-2">Protocol 02</p>
+                            <p className="text-xs font-bold text-foreground">Gather your core operational KPIs</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => { setCalendlyOpen(false); setCalendlyBooked(false); }}
+                          className="mt-12 px-10 py-4 bg-foreground text-background font-black text-xs uppercase tracking-[0.3em] hover:bg-primary transition-all rounded-xl"
+                        >
+                          Return to Hub
+                        </button>
+                      </div>
+                    ) : (
+                      <iframe
+                        src="https://calendly.com/kivokenya?embed_domain=kivo.ai&embed_type=inline"
+                        width="100%"
+                        height="100%"
+                        frameBorder="0"
+                      ></iframe>
+                    )}
                   </div>
                 </motion.div>
               </motion.div>
@@ -130,18 +187,50 @@ const ContactSection = () => {
             <div className="absolute inset-0 bg-primary/5 blur-3xl rounded-full translate-y-10" />
             <div className="relative p-10 md:p-12 rounded-[2.5rem] bg-card border border-border shadow-2xl backdrop-blur-2xl">
               {status === "success" ? (
-                <div className="text-center py-20 animate-fade-in">
-                  <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-8 border border-primary/30">
-                    <CheckCircle className="text-primary" size={40} />
+                <div className="text-left font-mono py-12">
+                  <div className="space-y-4 mb-12">
+                    {missionSteps.slice(0, terminalStep + 1).map((step, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="flex items-center gap-3"
+                      >
+                        <span className="text-primary font-black">{">"}</span>
+                        <span className={`text-xs ${i === missionSteps.length - 1 ? "text-primary font-black" : "text-foreground/70"}`}>
+                          {step}
+                        </span>
+                        {i === terminalStep && i < missionSteps.length - 1 && (
+                          <motion.div
+                            animate={{ opacity: [1, 0] }}
+                            transition={{ repeat: Infinity, duration: 0.8 }}
+                            className="w-2 h-4 bg-primary"
+                          />
+                        )}
+                      </motion.div>
+                    ))}
                   </div>
-                  <h3 className="font-display font-bold text-3xl text-foreground mb-2">Message Sent!</h3>
-                  <p className="text-muted-foreground font-medium mb-8">We'll get back to you within 24 hours.</p>
-                  <button
-                    onClick={() => setStatus("idle")}
-                    className="px-8 py-3 rounded-xl bg-muted text-foreground font-bold hover:bg-muted/80 transition-all border border-border"
-                  >
-                    Send another message
-                  </button>
+
+                  {terminalStep === missionSteps.length - 1 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="pt-8 animate-fade-in"
+                    >
+                      <div className="p-6 bg-primary/10 border border-primary/20 rounded-2xl mb-8">
+                        <h3 className="text-xl font-black text-foreground uppercase tracking-tight mb-2">Mission Initiated</h3>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                          Your data has been processed. A KIVO strategist will reach out within 24 standard hours to bypass your operational bottlenecks.
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => { setStatus("idle"); setTerminalStep(0); }}
+                        className="w-full py-4 rounded-xl bg-muted text-foreground font-bold hover:bg-primary hover:text-primary-foreground transition-all border border-border uppercase text-[10px] tracking-widest"
+                      >
+                        New Submission Protocol
+                      </button>
+                    </motion.div>
+                  )}
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
