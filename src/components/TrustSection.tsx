@@ -33,35 +33,40 @@ const PartnerBadge = ({ name, type }: { name: string; type: string }) => (
 );
 
 const TrustSection = () => {
+    // Duplicating for infinite feel
+    const allPartners = [...partners, ...partners, ...partners];
+
     return (
         <section className="py-24 bg-background border-y border-border overflow-hidden">
-            <div className="container mx-auto px-4">
-                <div className="grid lg:grid-cols-4 gap-16 items-center">
-                    <div className="lg:col-span-1">
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="w-6 h-[1px] bg-primary" />
-                            <span className="text-[8px] uppercase font-black tracking-[0.4em] text-primary">STRATEGIC ALLIANCE</span>
-                        </div>
-                        <h3 className="text-xl font-black text-foreground/40 uppercase leading-tight tracking-tighter">
-                            Trusted by <br /> Industry Architects
-                        </h3>
-                    </div>
-
-                    <div className="lg:col-span-3">
-                        <div className="flex flex-wrap justify-between gap-6 items-center">
-                            {partners.map((partner, i) => (
-                                <motion.div
-                                    key={partner.name}
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: i * 0.1, duration: 0.8 }}
-                                >
-                                    <PartnerBadge name={partner.name} type={partner.type} />
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
+            <div className="container mx-auto px-4 mb-16">
+                <div className="flex items-center gap-3 mb-4">
+                    <div className="w-6 h-[1px] bg-primary" />
+                    <span className="text-[8px] uppercase font-black tracking-[0.4em] text-primary">STRATEGIC ALLIANCE</span>
                 </div>
+                <h3 className="text-xl font-black text-foreground/40 uppercase leading-tight tracking-tighter">
+                    Trusted by Industry Architects
+                </h3>
+            </div>
+
+            <div className="relative flex overflow-hidden">
+                <motion.div
+                    className="flex gap-6 pr-6"
+                    animate={{ x: ["0%", "-33.333%"] }}
+                    transition={{
+                        x: {
+                            repeat: Infinity,
+                            repeatType: "loop",
+                            duration: 25,
+                            ease: "linear"
+                        }
+                    }}
+                >
+                    {allPartners.map((partner, i) => (
+                        <div key={`${partner.name}-${i}`} className="flex-shrink-0 w-64 md:w-80">
+                            <PartnerBadge name={partner.name} type={partner.type} />
+                        </div>
+                    ))}
+                </motion.div>
             </div>
         </section>
     );

@@ -39,87 +39,109 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-background/80 backdrop-blur-2xl border-b border-white/5 py-4" : "bg-transparent py-8"
-        }`}
-    >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between">
-          <Link to="/" className="group">
-            <Logo />
-          </Link>
-
-          {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-12">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-[10px] uppercase font-black tracking-[0.2em] text-white/50 hover:text-primary transition-colors"
-              >
-                {link.name}
-              </a>
-            ))}
-            <div className="flex items-center gap-6">
-              <ThemeToggle />
-              <a
-                href="#contact"
-                className="px-6 py-3 bg-foreground text-background font-black text-[10px] uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-colors flex items-center gap-2 group"
-              >
-                Initiate Project <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </a>
-            </div>
+    <>
+      <div className="w-full bg-primary/10 border-b border-primary/20 py-2 hidden md:block overflow-hidden">
+        <div className="container mx-auto px-4 flex justify-center items-center gap-6">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-primary">URGENCY PROTOCOL:</span>
           </div>
-
-          {/* Mobile Toggle & Theme */}
-          <div className="flex items-center gap-4 lg:hidden">
-            <ThemeToggle />
-            <button
-              className="text-foreground p-2"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
-            </button>
-          </div>
+          <motion.span
+            animate={{ opacity: [1, 0.5, 1] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className="text-[9px] font-black uppercase tracking-[0.2em] text-foreground/60"
+          >
+            Only 3 Discovery Call slots remaining for this week
+          </motion.span>
+          <div className="w-[1px] h-3 bg-border" />
+          <a href="#contact" className="text-[9px] font-black uppercase tracking-[0.3em] text-primary hover:text-white transition-colors">
+            Secure Slot Now
+          </a>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "tween", duration: 0.5 }}
-            className="fixed inset-0 bg-background z-40 lg:hidden flex flex-col p-8 pt-32"
-          >
-            <div className="flex flex-col gap-8">
+      <nav className={cn(
+        `fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-background/80 backdrop-blur-2xl border-b border-white/5 py-4" : "bg-transparent py-8"
+        }`)}
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="group">
+              <Logo />
+            </Link>
+
+            {/* Desktop Nav */}
+            <div className="hidden lg:flex items-center gap-12">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-4xl font-black text-foreground hover:text-primary transition-colors uppercase tracking-tight"
-                  onClick={() => setIsOpen(false)}
+                  className="text-[10px] uppercase font-black tracking-[0.2em] text-white/50 hover:text-primary transition-colors"
                 >
                   {link.name}
                 </a>
               ))}
-              <a
-                href="#contact"
-                className="mt-8 px-8 py-5 bg-primary text-[#050505] font-black text-xl uppercase tracking-widest flex items-center justify-between"
-                onClick={() => setIsOpen(false)}
+              <div className="flex items-center gap-6">
+                <ThemeToggle />
+                <a
+                  href="#contact"
+                  className="px-6 py-3 bg-foreground text-background font-black text-[10px] uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-colors flex items-center gap-2 group"
+                >
+                  Initiate Project <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
+            </div>
+
+            {/* Mobile Toggle & Theme */}
+            <div className="flex items-center gap-4 lg:hidden">
+              <ThemeToggle />
+              <button
+                className="text-foreground p-2"
+                onClick={() => setIsOpen(!isOpen)}
               >
-                Launch Discovery <ArrowRight size={24} />
-              </a>
+                {isOpen ? <X size={28} /> : <Menu size={28} />}
+              </button>
             </div>
-            <div className="mt-auto border-t border-white/5 pt-8">
-              <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em]">Nairobi, Kenya • 2026</p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ type: "tween", duration: 0.5 }}
+              className="fixed inset-0 bg-background z-40 lg:hidden flex flex-col p-8 pt-32"
+            >
+              <div className="flex flex-col gap-8">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="text-4xl font-black text-foreground hover:text-primary transition-colors uppercase tracking-tight"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.name}
+                  </a>
+                ))}
+                <a
+                  href="#contact"
+                  className="mt-8 px-8 py-5 bg-primary text-[#050505] font-black text-xl uppercase tracking-widest flex items-center justify-between"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Launch Discovery <ArrowRight size={24} />
+                </a>
+              </div>
+              <div className="mt-auto border-t border-white/5 pt-8">
+                <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em]">Nairobi, Kenya • 2026</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+    </>
   );
 };
 

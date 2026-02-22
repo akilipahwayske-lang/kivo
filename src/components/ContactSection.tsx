@@ -13,7 +13,7 @@ const ContactSection = () => {
 
     // Formspree Integration Point
     try {
-      const response = await fetch("https://formspree.io/f/xvgzpyzo", { // Placeholder - user should update with their ID
+      const response = await fetch("https://formspree.io/f/xqedynek", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formState),

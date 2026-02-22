@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -28,9 +28,26 @@ const testimonials = [
 
 const TestimonialsSection = () => {
     const [current, setCurrent] = useState(0);
+    const [progress, setProgress] = useState(0);
 
-    const next = () => setCurrent((c) => (c + 1) % testimonials.length);
-    const prev = () => setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrent((c) => (c + 1) % testimonials.length);
+            setProgress(0);
+        }, 10000);
+
+        const progressTimer = setInterval(() => {
+            setProgress(prev => Math.min(prev + 1, 100));
+        }, 100);
+
+        return () => {
+            clearInterval(timer);
+            clearInterval(progressTimer);
+        };
+    }, []);
+
+    const next = () => { setCurrent((c) => (c + 1) % testimonials.length); setProgress(0); };
+    const prev = () => { setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length); setProgress(0); };
 
     return (
         <section id="testimonials" className="py-24 md:py-40 bg-background relative overflow-hidden">
@@ -85,19 +102,29 @@ const TestimonialsSection = () => {
                             </motion.div>
                         </AnimatePresence>
 
-                        <div className="flex gap-4 mt-20">
-                            <button
-                                onClick={prev}
-                                className="w-16 h-16 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-foreground hover:text-background transition-all"
-                            >
-                                <ChevronLeft size={24} />
-                            </button>
-                            <button
-                                onClick={next}
-                                className="w-16 h-16 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-foreground hover:text-background transition-all"
-                            >
-                                <ChevronRight size={24} />
-                            </button>
+                        <div className="flex flex-col gap-8 mt-20">
+                            <div className="w-full h-px bg-border relative">
+                                <motion.div
+                                    className="absolute top-0 left-0 h-full bg-primary"
+                                    initial={{ width: "0%" }}
+                                    animate={{ width: `${progress}%` }}
+                                    transition={{ duration: 0.1, ease: "linear" }}
+                                />
+                            </div>
+                            <div className="flex gap-4">
+                                <button
+                                    onClick={prev}
+                                    className="w-16 h-16 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-foreground hover:text-background transition-all"
+                                >
+                                    <ChevronLeft size={24} />
+                                </button>
+                                <button
+                                    onClick={next}
+                                    className="w-16 h-16 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-foreground hover:text-background transition-all"
+                                >
+                                    <ChevronRight size={24} />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

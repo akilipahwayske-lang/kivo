@@ -13,6 +13,8 @@ import AIReadinessQuiz from "@/components/AIReadinessQuiz";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
+import ROICalculator from "@/components/ROICalculator";
+import ConversionHub from "@/components/ConversionHub";
 
 const Index = () => {
   return (
@@ -21,17 +23,17 @@ const Index = () => {
       <Navbar />
       <NextLevelHero />
       <TrustSection />
-      <ShowcaseSection />
-      <MethodologySection />
-      <TestimonialsSection />
-      <ServicesSection />
-      <IndustriesSection />
       <AboutSection />
-      <ArchitectsSection />
-      <AIReadinessQuiz />
+      <ServicesSection />
+      <ROICalculator />
+      <ShowcaseSection />
+      <IndustriesSection />
+      <TestimonialsSection />
       <InsightsSection />
+      <AIReadinessQuiz />
       <ContactSection />
       <Footer />
+      <ConversionHub />
     </div>
   );
 };
